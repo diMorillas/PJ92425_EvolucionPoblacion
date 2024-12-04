@@ -28,7 +28,7 @@ CSS3
 
 JavaScript (Canvas, Drag & Drop API)
 
-Backend:
+### Backend:
 
 Node.js con Express.js
 
@@ -39,3 +39,6 @@ MongoDB para almacenar usuarios, roles y entradas de blog.
 Almacenamiento local:
 
 Uso de LocalStorage para guardar preferencias y configuraciones del usuario.
+
+## Autores
+Didac Morillas, Pau Morillas, Jie Li, Joan Garcia. Jesuïtes el Clot 2024 - 2025
