@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Preguntas del quizz
     const preguntas = [
-      { pregunta: "¿Capital de Francia?", respuestas: ["Madrid", "París", "Berlín"], correcta: "París" },
-      { pregunta: "¿2 + 2?", respuestas: ["3", "4", "5"], correcta: "4" },
+      { pregunta: "¿País con mayor población en 2024?", respuestas: ["India", "China", "España"], correcta: "India" },
+      { pregunta: "¿Qué país recibe más habitantes por migración?", respuestas: ["Estados Unidos", "Alemania", "China"], correcta: "Estados Unidos" },
       { pregunta: "¿Color del cielo?", respuestas: ["Rojo", "Azul", "Verde"], correcta: "Azul" },
       { pregunta: "¿Capital de España?", respuestas: ["Madrid", "Barcelona", "Sevilla"], correcta: "Madrid" },
       { pregunta: "¿5 * 5?", respuestas: ["25", "20", "30"], correcta: "25" },
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Referencias al DOM
     const dropZone = document.getElementById('dropZone');
+
     const answers = document.getElementById('answers');
     const questionElement = document.getElementById('question');
     const feedback = document.getElementById('feedback');
@@ -29,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mostrar la pregunta y respuestas
     function loadQuestion() {
       const currentQuestion = preguntas[currentQuestionIndex];
-      questionElement.textContent = `Pregunta: ${currentQuestion.pregunta}`;
-      dropZone.textContent = "Arrastra la respuesta aquí";
+      questionElement.textContent = `${currentQuestion.pregunta}`;
+      dropZone.innerHTML = "Arrastra la respuesta aquí <br>⬇️";
       feedback.textContent = "";
   
       // Limpiar y cargar respuestas
@@ -115,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
       prevButton.style.display = 'none';
       nextButton.style.display = 'none';
       scoreElement.textContent = `Tu puntuación: ${score} de ${preguntas.length}`;
+
     }
   
     // Cargar la primera pregunta
