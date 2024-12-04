@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz DND</title>
+  <style>
+    .container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .column {
+      border: 2px solid #ccc;
+      padding: 20px;
+      width: 300px;
+      min-height: 200px;
+      text-align: center;
+      border-radius: 14px;
+    }
+
+    .respuesta {
+      margin: 10px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      cursor: grab;
+    }
+
+    .drop-zone {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f1f1f1;
+      border: 2px dashed #aaa;
+      min-height: 50px;
+      border-radius: 14px;
+    }
+
+    .drop-zone.dragover {
+      border-color: #00f;
+      background-color: #e0f7fa;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+
+    #score {
+      margin-top: 20px;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="column">
+      <p id="question"><strong>Pregunta:</strong></p>
+      <div class="drop-zone" id="dropZone">
+        Arrastra la respuesta aquí
+      </div>
+    </div>
+
+    <div class="column" id="answers"></div>
+  </div>
+
+  <div class="buttons">
+    <button id="prev" disabled>&larr; Anterior</button>
+    <button id="next" disabled>Siguiente &rarr;</button>
+  </div>
+
+  <p id="feedback"></p>
+  <p id="score"></p>
+
+  <script src="./quizz.js"></script>
+</body>
+</html>
