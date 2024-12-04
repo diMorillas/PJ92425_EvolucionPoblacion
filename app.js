@@ -2,19 +2,18 @@
  * Servidor HTTP para el PJ9 de DAW2 en Jesuïtes el Clot
  */
 var http = require("http");
-var url = require("url");
 var fs = require('fs');
 
 function iniciar() {
   function onRequest(request, response) {
     let sortida;
-    const baseURL = 'http://' + request.headers.host + '/';  // Arreglado el baseURL
-    const reqUrl = new URL(request.url, baseURL);  // Sin la "A"
+    const baseURL = 'http://' + request.headers.host + '/';
+    const reqUrl = new URL(request.url, baseURL);
     console.log("Petició per a  " + reqUrl.pathname + " rebuda.");
     const pathname = reqUrl.pathname;
 
-    // Ruta para la página principal (index.html)
-    if (pathname == '/') {
+    // Manejo de las rutas
+    if (pathname == '/') {  // Ruta para la página principal (index.html)
       fs.readFile('./public/index.html', function (err, sortida) {
         if (err) {
           response.writeHead(500, { "Content-Type": "text/plain" });
@@ -26,11 +25,23 @@ function iniciar() {
         response.end();
       });
 
-    } else if (pathname == '/quizz.js') {  // Ruta para el archivo JavaScript
+    } else if (pathname == '/quizz') {  // Ruta para el quiz (quizz.html)
+      fs.readFile('./public/quizz.html', function (err, sortida) {
+        if (err) {
+          response.writeHead(500, { "Content-Type": "text/plain" });
+          response.write("Error al cargar quizz.html");
+        } else {
+          response.writeHead(200, { "Content-Type": "text/html" });
+          response.write(sortida);
+        }
+        response.end();
+      });
+
+    } else if (pathname == '/quizz.js') {  // Ruta para el archivo JavaScript del quiz
       fs.readFile('./public/quizz.js', function (err, sortida) {
         if (err) {
           response.writeHead(500, { "Content-Type": "text/plain" });
-          response.write("Error al cargar index.js");
+          response.write("Error al cargar quizz.js");
         } else {
           response.writeHead(200, { "Content-Type": "text/javascript; charset=utf-8" });
           response.write(sortida);
@@ -57,8 +68,6 @@ function iniciar() {
       response.end();
     }
   }
-
-  /**Repetir este proceso para cada ruta */
 
   http.createServer(onRequest).listen(8888, () => {
     console.log("Servidor iniciat a http://localhost:8888");
