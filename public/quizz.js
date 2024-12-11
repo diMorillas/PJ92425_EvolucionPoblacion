@@ -1,17 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Preguntas del quizz
     const preguntas = [
-      { pregunta: "¿País con mayor población en 2024?", respuestas: ["India", "China", "España"], correcta: "India" },
-      { pregunta: "¿Qué país recibe más habitantes por migración?", respuestas: ["Estados Unidos", "Alemania", "China"], correcta: "Estados Unidos" },
-      { pregunta: "¿Color del cielo?", respuestas: ["Rojo", "Azul", "Verde"], correcta: "Azul" },
-      { pregunta: "¿Capital de España?", respuestas: ["Madrid", "Barcelona", "Sevilla"], correcta: "Madrid" },
-      { pregunta: "¿5 * 5?", respuestas: ["25", "20", "30"], correcta: "25" },
-      { pregunta: "¿Planeta más grande?", respuestas: ["Tierra", "Júpiter", "Saturno"], correcta: "Júpiter" },
-      { pregunta: "¿Primera letra del abecedario?", respuestas: ["A", "B", "C"], correcta: "A" },
-      { pregunta: "¿Animal más rápido?", respuestas: ["Guepardo", "León", "Tigre"], correcta: "Guepardo" },
-      { pregunta: "¿Número de continentes?", respuestas: ["5", "6", "7"], correcta: "7" },
-      { pregunta: "¿Idioma más hablado?", respuestas: ["Inglés", "Chino", "Español"], correcta: "Chino" }
-    ];
+      { 
+        "pregunta": "¿Qué país tiene la mayor tasa de natalidad en 2024?", 
+        "respuestas": ["Níger", "India", "China"], 
+        "correcta": "Níger" 
+      },
+      { 
+        "pregunta": "¿Qué país tiene la mayor cantidad de emigrantes viviendo en el extranjero?", 
+        "respuestas": ["India", "México", "China"], 
+        "correcta": "India" 
+      },
+      { 
+        "pregunta": "¿Qué continente tiene más habitantes?", 
+        "respuestas": ["Asia", "África", "Europa"], 
+        "correcta": "Asia" 
+      },
+      { 
+        "pregunta": "¿Cuál es el país con mayor densidad de población?", 
+        "respuestas": ["Mónaco", "Singapur", "Bangladés"], 
+        "correcta": "Mónaco" 
+      },
+      { 
+        "pregunta": "¿Cuál es la población aproximada de India en 2024?", 
+        "respuestas": ["1.4 mil millones", "1.6 mil millones", "1.2 mil millones"], 
+        "correcta": "1.4 mil millones" 
+      },
+      { 
+        "pregunta": "¿Cuál es el principal motivo de migración global?", 
+        "respuestas": ["Trabajo", "Educación", "Reunificación familiar"], 
+        "correcta": "Trabajo" 
+      },
+      { 
+        "pregunta": "¿Qué país europeo tiene mayor porcentaje de inmigrantes?", 
+        "respuestas": ["Alemania", "Suiza", "Francia"], 
+        "correcta": "Suiza" 
+      },
+      { 
+        "pregunta": "¿Cuál es el continente con mayor tasa de emigración?", 
+        "respuestas": ["África", "Europa", "Asia"], 
+        "correcta": "África" 
+      },
+      { 
+        "pregunta": "¿Qué región del mundo tiene la tasa de crecimiento poblacional más alta?", 
+        "respuestas": ["África Subsahariana", "Sudeste Asiático", "América Latina"], 
+        "correcta": "África Subsahariana" 
+      },
+      { 
+        "pregunta": "¿Qué país tiene la mayor cantidad de refugiados?", 
+        "respuestas": ["Turquía", "Pakistán", "Uganda"], 
+        "correcta": "Turquía" 
+      }
+    ]
+    ;
   
     // Variables
     let currentQuestionIndex = 0;
