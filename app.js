@@ -63,8 +63,8 @@ function iniciar() {
         response.end();
       });
 
-    } else if (pathname == '/style.css') {  // Ruta para el archivo CSS
-      fs.readFile('./public/style.css', function (err, sortida) {
+    } else if (pathname == '/styles.css') {  // Ruta para el archivo CSS
+      fs.readFile('./public/styles.css', function (err, sortida) {
         if (err) {
           response.writeHead(500, { "Content-Type": "text/plain" });
           response.write("Error al cargar style.css");
