@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Populus</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <img src="../img/logo-nav.png" alt="Logo">
+            <ul class="nav-enlaces">
+                <li><a href="./inicio.html">Gráfico</a></li>
+                <li><a href="./quizz.html">Quizz</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="./sobrenosotros.html">Sobre Nosotros</a></li>
+                <li><a style="color: blue;" href="./contacto.html">Contacto</a></li>
+            </ul>
+            <div class="logout">
+                <a href="./index.html">Log out</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="form-container">
+        <form class="form">
+            <h1 class="form-titulo">Contacto</h1>
+
+            <div class="form-group">
+                <label for="nombre" class="label">Nombre completo</label>
+                <input type="text" id="nombre" class="form-input" placeholder="Escribe nombre completo">
+            </div>
+
+            <div class="form-group">
+                <label for="telefono" class="label">Teléfono</label>
+                <input type="text" id="telefono" class="form-input" placeholder="Escribe teléfono">
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="label">Correo electrónico</label>
+                <input type="email" id="email" class="form-input" placeholder="Escribe correo electrónico">
+            </div>
+
+            <div class="form-group">
+                <label for="mensaje" class="label">Mensaje</label>
+                <textarea id="mensaje" class="form-input" placeholder="Escribe mensaje"></textarea>
+            </div>
+
+            <button type="submit" id="button" class="form-button">Enviar</button>
+        </form>
+    </section>
+
+    <footer class="footer-container">
+        <div class="footer-enlaces">
+            <p>Copyright &copy; Todos los derechos reservados a Populus 2024</p>
+            <div class="footer-enlaces">
+                <a href="./inicio.html">Inicio</a>
+                <a href="./politica_cookies.html">Política de Cookies</a>
+                <a href="./terminos.html">Términos y Condiciones</a>
+                <a href="./contacto.html">Contacto</a>
+                <a href="./sobrenosotros.html">Sobre Nosotros</a>
+            </div>
+            <div class="footer-info">
+                <p>Teléfono: +34 123 456 789</p>
+                <p>Email: <a href="mailto:populus@worldwide.net">populus@worldwide.net</a></p>
+                <p>Dirección: Calle Ficticia 123, 08001 Barcelona, España</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
