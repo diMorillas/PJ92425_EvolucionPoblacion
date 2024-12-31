@@ -24,6 +24,20 @@ function iniciar() {
         }
         response.end();
       });
+    
+
+    }
+    else if(pathname == '/inicio'){
+      fs.readFile('./public/inicio.html', function (err, sortida) {
+        if (err) {
+          response.writeHead(500, { "Content-Type": "text/plain" });
+          response.write("Error al cargar index.html");
+        } else {
+          response.writeHead(200, { "Content-Type": "text/html" });
+          response.write(sortida);
+        }
+        response.end();
+      });
 
     } else if (pathname == '/quizz') {  // Ruta para el quiz (quizz.html)
       fs.readFile('./public/quizz.html', function (err, sortida) {
@@ -60,6 +74,7 @@ function iniciar() {
         }
         response.end();
       });
+
 
     } else {  // Si no se encuentra la ruta solicitada
       sortida = "404 NOT FOUND";
