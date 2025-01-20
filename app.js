@@ -88,8 +88,19 @@ function iniciar() {
         }
         response.end();
       });
-    }else if (pathname == '/grafico') {  // Ruta para el quiz (quizz.html)
-    fs.readFile('./public/contacto.html', function (err, sortida) {
+    }else if (pathname == '/graficas') {  // Ruta para el quiz (quizz.html)
+    fs.readFile('./public/graficas.html', function (err, sortida) {
+      if (err) {
+        response.writeHead(500, { "Content-Type": "text/plain" });
+        response.write("Error al cargar quizz.html");
+      } else {
+        response.writeHead(200, { "Content-Type": "text/html" });
+        response.write(sortida);
+      }
+      response.end();
+    });
+  }else if (pathname == '/about') {  // Ruta para el quiz (quizz.html)
+    fs.readFile('./public/sobrenosotros.html', function (err, sortida) {
       if (err) {
         response.writeHead(500, { "Content-Type": "text/plain" });
         response.write("Error al cargar quizz.html");
@@ -100,6 +111,7 @@ function iniciar() {
       response.end();
     });
   }
+  
   
     
     else {  // Si no se encuentra la ruta solicitada
