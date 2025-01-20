@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos</title>
+    <link rel="stylesheet" href="style.css"></link>
+</head>
+
+<body>
+    <h1>Evolución de la población mundial 2000 a.C-2010</h1>
+    <div id="GrafBarras" class="grafico-container">
+        <canvas id="canvasBarras" width="400" height="400"></canvas>
+    </div>
+    <div id="graficoProgresion" class="grafico-container">
+        <canvas id="canvasProgresion" width="400" height="400"></canvas>
+    </div>
+    <div id="graficoPastel" class="grafico-container">
+        <canvas id="canvasPastel" width="400" height="400"></canvas>
+    </div>
+    
+    <div class="menu-grid">
+        <button onclick="mostrarGrafico('GrafBarras')">Gráfico de Barras</button>
+        <button onclick="mostrarGrafico('graficoProgresion')">Gráfico de Progresión</button>
+        <button onclick="mostrarGrafico('graficoPastel')">Gráfico de Pastel</button>
+        <button onclick="mostrarGrafico('mapa')">Mapa</button>
+    </div>
+    <script src="graficas.js"></script>
+</body>
+</html>
