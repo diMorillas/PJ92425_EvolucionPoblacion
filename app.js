@@ -51,6 +51,7 @@ function iniciar() {
         response.end();
       });
 
+
     } else if (pathname == '/quizz.js') {  // Ruta para el archivo JavaScript del quiz
       fs.readFile('./public/quizz.js', function (err, sortida) {
         if (err) {
@@ -76,7 +77,32 @@ function iniciar() {
       });
 
 
-    } else {  // Si no se encuentra la ruta solicitada
+    }else if (pathname == '/contacto') {  // Ruta para el quiz (quizz.html)
+      fs.readFile('./public/contacto.html', function (err, sortida) {
+        if (err) {
+          response.writeHead(500, { "Content-Type": "text/plain" });
+          response.write("Error al cargar quizz.html");
+        } else {
+          response.writeHead(200, { "Content-Type": "text/html" });
+          response.write(sortida);
+        }
+        response.end();
+      });
+    }else if (pathname == '/grafico') {  // Ruta para el quiz (quizz.html)
+    fs.readFile('./public/contacto.html', function (err, sortida) {
+      if (err) {
+        response.writeHead(500, { "Content-Type": "text/plain" });
+        response.write("Error al cargar quizz.html");
+      } else {
+        response.writeHead(200, { "Content-Type": "text/html" });
+        response.write(sortida);
+      }
+      response.end();
+    });
+  }
+  
+    
+    else {  // Si no se encuentra la ruta solicitada
       sortida = "404 NOT FOUND";
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.write(sortida);
