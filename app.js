@@ -98,7 +98,17 @@ function iniciar() {
         response.write(sortida);
       }
       response.end();
-    });
+    },
+    fs.readFile('./public/graficas.js', function (err, sortida) {
+      if (err) {
+        response.writeHead(500, { "Content-Type": "text/plain" });
+        response.write("Error al cargar quizz.html");
+      } else {
+        response.writeHead(200, { "Content-Type": "text/html" });
+        response.write(sortida);
+      }
+      response.end();
+    }));
   }else if (pathname == '/about') {  // Ruta para el quiz (quizz.html)
     fs.readFile('./public/sobrenosotros.html', function (err, sortida) {
       if (err) {
