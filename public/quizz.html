@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Populus</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" type="image/x-icon" href="../img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    .container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .container--general{
+      border: solid 2px #ccc;
+      border-radius: 5px;
+      width: 800px;
+      margin: 0 auto;
+      margin-top: 120px;
+    }
+
+    .quizz--titulo{
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .column {
+      border: 2px solid #ccc;
+      padding: 20px;
+      width: 300px;
+      height: 200px;
+      text-align: center;
+      border-radius: 14px;
+    }
+
+    .respuesta {
+      margin: 6.5px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: grab;
+    }
+
+    .drop-zone {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border: 2px dashed #aaa;
+      min-height: 50px;
+      border-radius: 14px;
+    }
+
+    .drop-zone.dragover {
+      border-color: #00f;
+      background-color: #e0f7fa;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .boton--previo{
+      margin-left: 10px;
+    }
+
+    .boton--previo, .boton--siguiente{
+      text-decoration: none;
+      font-size: bold;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      background-color: #3137fd;
+      border-radius: 14px;
+      transition: 0.22s ease;
+      cursor: pointer;
+    }
+    
+
+    .boton--previo:hover{
+      background-color: #035096;
+    }
+
+    .boton--siguiente:hover{
+      background-color: #035096;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+
+    #score {
+      margin-top: 20px;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+        <img src="../img/logo-nav.png" alt="Logo">
+        <ul class="nav-enlaces">
+            <li><a href="/inicio">Gráfico</a></li>
+            <li><a style="color: blue;" href="/quizz">Quizz</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="/sobrenosotros">Sobre Nosotros</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+        </ul>
+        <div class="logout">
+            <a href="/index">Log out</a>
+        </div>
+    </div>
+</nav>
+<br><br>
+<h1 style="text-align: center;">Comprobemos tu conocimiento sobre la población:</h1>
+
+  <div class="container--general">
+    <h1 class="quizz--titulo">Cuestionario de conocimiento general:</h1>
+    <div class="container">
+      <div class="column">
+        <br>
+        <p id="question"><strong></strong></p>
+        <div class="drop-zone" id="dropZone">
+          Arrastra la respuesta aquí
+        </div>
+      </div>
+
+      <div class="column" id="answers"></div>
+    </div>
+
+    <div class="buttons">
+      <button id="prev" class="boton--previo" disabled>&larr; Anterior</button>
+      <button id="next" class="boton--siguiente" disabled>Siguiente &rarr;</button>
+      <br><br>
+    </div>
+    <span id="indexPregunta"></span>
+  </div>
+  <br>
+  <p id="feedback" style="text-align: center;"></p>
+  <p id="score" style="text-align: center;"></p>
+  <br>
+  <p style="text-align: center;">¿Quieres repetir este quizz? ¡Recarga la página y siéntete libre de repetirlo las veces que quieras!</p>
+
+  <footer class="footer-container">
+    <div class="footer-enlaces">
+        <p>Copyright &copy; Todos los derechos reservados a Populus 2024</p>
+        <div class="footer-enlaces">
+            <a href="/inicio">Inicio</a>
+            <a href="/politica_cookies">Política de Cookies</a>
+            <a href="/terminos">Términos y Condiciones</a>
+            <a href="/contacto">Contacto</a>
+            <a href="/sobrenosotros">Sobre Nosotros</a>
+        </div>
+        <div class="footer-info">
+            <p>Teléfono: +34 123 456 789</p>
+            <p>Email: <a href="mailto:populus@worldwide.net">populus@worldwide.net</a></p>
+            <p>Dirección: Calle Ficticia 123, 08001 Barcelona, España</p>
+        </div>
+    </div>
+</footer>
+  <script src="./quizz.js"></script>
+</body>
+</html>
