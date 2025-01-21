@@ -53,7 +53,6 @@ function iniciar() {
         response.end();
       });
 
-
     } else if (pathname == '/quizz.js') {  // Ruta para el archivo JavaScript del quiz
       fs.readFile('./public/quizz.js', function (err, sortida) {
         if (err) {
@@ -111,7 +110,7 @@ function iniciar() {
       }
       response.end();
     }));
-  }else if (pathname == '/about') {  // Ruta para el quiz (quizz.html)
+  }else if (pathname == '/about') {
     fs.readFile('./public/sobrenosotros.html', function (err, sortida) {
       if (err) {
         response.writeHead(500, { "Content-Type": "text/plain" });
