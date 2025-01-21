@@ -50,7 +50,9 @@ function iniciar() {
       serveFile("./public/quizz.js", "text/javascript");
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
-    } else if (pathname === "/contacto") {
+    }else if (pathname === "/styles.css") {
+      serveFile("./public/style.css", "text/css");
+    }else if (pathname === "/contacto") {
       serveFile("./public/contacto.html", "text/html");
     } else if (pathname === "/graficas") {
       serveFile("./public/graficas.html", "text/html");
