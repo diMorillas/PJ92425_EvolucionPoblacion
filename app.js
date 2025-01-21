@@ -4,6 +4,8 @@
 var http = require("http");
 var fs = require('fs');
 const mongoose = require('mongoose');
+const path = require('path');
+
 
 
 function iniciar() {
@@ -121,11 +123,25 @@ function iniciar() {
       }
       response.end();
     });
-  }
-  
-  
-    
-    else {  // Si no se encuentra la ruta solicitada
+  }else if (pathname.startsWith('/img/')) {  // Ruta para imágenes
+    fs.readFile('./public' + pathname, function (err, sortida) {
+      if (err) {
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        response.write("Error al cargar la imagen");
+      } else {
+        // Detect the file extension for proper content type
+        const extname = path.extname(pathname);
+        let contentType = 'image/jpeg'; // Default to JPEG
+        if (extname === '.png') contentType = 'image/png';
+        if (extname === '.gif') contentType = 'image/gif';
+
+        response.writeHead(200, { "Content-Type": contentType });
+        response.write(sortida);
+      }
+      response.end();
+    });
+
+  }else {  // Si no se encuentra la ruta solicitada
       sortida = "404 NOT FOUND";
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.write(sortida);
