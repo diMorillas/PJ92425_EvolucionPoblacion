@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Populus admin panel</title>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+}
+
+#post-form h2,
+#posts h2 {
+  margin-top: 0;
+}
+
+#post-form input,
+#post-form textarea {
+  width: 95%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#post-form button {
+  background-color: #0073e6;
+  width: 10%;
+  color: #fff;
+  padding: 10px 20px;
+  margin-bottom: 5%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#post-form button:hover {
+  background-color: #005bb5;
+}
+
+#post-container .post {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+#post-container .post h3 {
+  margin: 0 0 5px;
+}
+
+#post-container .post p {
+  margin: 0;
+}
+
+#homepage{
+    background-color: blanchedalmond;
+    color: white;
+}
+
+
+/* Estilo para el contenedor de los posts */
+.post {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el botón de eliminar */
+.delete-post {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo para el ícono dentro del botón */
+.delete-icon {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+/* Efecto de hover para el botón */
+.delete-post:hover {
+  background-color: #ff2222;
+}
+
+/* Efecto de hover para el contenedor de post */
+.post:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+textarea{
+    resize:none;
+    width: 50%;
+}
+
+
+</style>
+
+</head>
+<body>
+  <button id="homepage">Volver al Inicio</button>
+  <div class="container">
+    <h1 class="title">Este es el área de creación de blogs</h1>
+
+    <div id="post-form">
+      <h2>Añadir Post</h2>
+      <input type="text" id="title" placeholder="Title" />
+      <textarea id="content" placeholder="Content"></textarea>
+      <button id="add-post">Añadir Post</button>
+
+    <div id="posts">
+      <h2>Posts</h2>
+      <div id="post-container"></div>
+    </div>
+  </div>
+  <script src="apiConsumer.js"></script>
+</body>
+</html>

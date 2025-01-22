@@ -11,6 +11,22 @@ let posts = [
   { id: 2, title: "segundo post", content: "Segundo post" },
 ];
 
+let users = [
+  {
+  id:1,
+  username: "admin",
+  password: "1234"
+},
+{
+  id:2,
+  username:"userTest",
+  password:"1234"
+}
+
+
+
+];
+
 function iniciar() {
   function onRequest(request, response) {
     const baseURL = `http://${request.headers.host}/`;
@@ -68,12 +84,10 @@ function iniciar() {
       const extname = path.extname(pathname);
       const contentType = mimeTypes[extname] || "application/octet-stream";
       serveFile(`./public${pathname}`, contentType);
-
     } else if(pathname === "/api/posts" && request.method === "GET") {
       // Devolver todos los posts
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(posts));
-      
     } else if (pathname === "/api/posts" && request.method === "POST") {
       // Añadir post
       let body = "";
@@ -88,7 +102,12 @@ function iniciar() {
         response.writeHead(201, { "Content-Type": "application/json" });
         response.end(JSON.stringify({ message: "Post created successfully", post: newPost }));
       });
-    
+    }else if(pathname== "/blog"){
+      serveFile("./public/blog.html", "text/html");
+
+    }else if(pathname == "/apiConsumer.js"){
+      serveFile("./public/apiConsumer.js","text/javascript");
+
     }else if(pathname.startsWith("/api/posts/") && request.method === "GET") {
       // Get a specific post by ID
       const id = parseInt(pathname.split("/")[3], 10);
@@ -101,12 +120,10 @@ function iniciar() {
         response.writeHead(404, { "Content-Type": "application/json" });
         response.end(JSON.stringify({ message: "Post not found" }));
       }
-
     }else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
       // Get a specific post by ID
       const id = parseInt(pathname.split("/")[3], 10);
       const post = posts.find((p) => p.id === id);
-
       if (post) {
         response.writeHead(200, { "Content-Type": "application/json" });
         response.end(JSON.stringify(post));
@@ -127,15 +144,12 @@ function iniciar() {
         response.writeHead(404, { "Content-Type": "application/json" });
         response.end(JSON.stringify({ message: "Post not found" }));
       }
-
     }else {
-
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 NOT FOUND");
     }
   }
 
-  // Start the server
   http.createServer(onRequest).listen(8888, () => {
     console.log("Servidor iniciat a http://localhost:8888");
   });
