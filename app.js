@@ -1,30 +1,32 @@
-/*
- * Servidor HTTP para el PJ9 de DAW2 en Jesuïtes el Clot
- */
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const mongoose = require("mongoose");
+const { mongoose, User } = require("./db/mongoose");  // Importar la conexión y el modelo
+const { URLSearchParams } = require("url");
+
+// Crear un usuario por defecto si no existe
+async function createDefaultUser() {
+  try {
+    const existingUser = await User.findOne({ username: 'admin' });
+    if (!existingUser) {
+      const newUser = new User({ username: 'admin', password: '1234' });
+      await newUser.save();
+      console.log('Usuario por defecto "admin" creado con éxito');
+    } else {
+      console.log('El usuario "admin" ya existe');
+    }
+  } catch (error) {
+    console.error('Error al crear el usuario por defecto:', error);
+  }
+}
+
+createDefaultUser();
+
+// Función para iniciar el servidor
 
 let posts = [
   { id: 1, title: "primer post", content: "Primer post" },
   { id: 2, title: "segundo post", content: "Segundo post" },
-];
-
-let users = [
-  {
-  id:1,
-  username: "admin",
-  password: "1234"
-},
-{
-  id:2,
-  username:"userTest",
-  password:"1234"
-}
-
-
-
 ];
 
 function iniciar() {
@@ -60,7 +62,7 @@ function iniciar() {
       });
     };
 
-    // Route handling
+    // Ruta para servir los archivos estáticos
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
     } else if (pathname === "/inicio") {
