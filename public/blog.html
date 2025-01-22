@@ -124,12 +124,40 @@ textarea{
     width: 50%;
 }
 
+.back-to-home {
+  background-color: #4CAF50; /* Color verde */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo para el ícono dentro del botón */
+.back-to-home span {
+  margin-right: 5px;
+}
+
+/* Efecto de hover para el botón */
+.back-to-home:hover {
+  background-color: #45a049; /* Verde más oscuro */
+}
 
 </style>
 
 </head>
 <body>
-  <button id="homepage">Volver al Inicio</button>
+  <button id="back-to-home" class="back-to-home">
+    ⬅️ Volver a Inicio
+  </button>
+
   <div class="container">
     <h1 class="title">Este es el área de creación de blogs</h1>
 
