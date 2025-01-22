@@ -6,6 +6,11 @@ const fs = require("fs");
 const path = require("path");
 const mongoose = require("mongoose");
 
+let posts = [
+  { id: 1, title: "primer post", content: "Primer post" },
+  { id: 2, title: "segundo post", content: "Segundo post" },
+];
+
 function iniciar() {
   function onRequest(request, response) {
     const baseURL = `http://${request.headers.host}/`;
@@ -63,8 +68,68 @@ function iniciar() {
       const extname = path.extname(pathname);
       const contentType = mimeTypes[extname] || "application/octet-stream";
       serveFile(`./public${pathname}`, contentType);
-    } else {
-      // Handle 404 Not Found
+
+    } else if(pathname === "/api/posts" && request.method === "GET") {
+      // Devolver todos los posts
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(JSON.stringify(posts));
+      
+    } else if (pathname === "/api/posts" && request.method === "POST") {
+      // Añadir post
+      let body = "";
+      request.on("data", (chunk) => {
+        body += chunk.toString();
+      });
+      request.on("end", () => {
+        let newPost = JSON.parse(body);
+        newPost.id = posts.length ? posts[posts.length - 1].id + 1 : 1; // id autoincrementado
+        posts.push(newPost);
+
+        response.writeHead(201, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Post created successfully", post: newPost }));
+      });
+    
+    }else if(pathname.startsWith("/api/posts/") && request.method === "GET") {
+      // Get a specific post by ID
+      const id = parseInt(pathname.split("/")[3], 10);
+      const post = posts.find((p) => p.id === id);
+
+      if (post) {
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(JSON.stringify(post));
+      } else {
+        response.writeHead(404, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Post not found" }));
+      }
+
+    }else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
+      // Get a specific post by ID
+      const id = parseInt(pathname.split("/")[3], 10);
+      const post = posts.find((p) => p.id === id);
+
+      if (post) {
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(JSON.stringify(post));
+      } else {
+        response.writeHead(404, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Post not found" }));
+      }
+    } else if (pathname.startsWith("/api/posts/") && request.method === "DELETE") {
+      // Delete a post by ID
+      const id = parseInt(pathname.split("/")[3], 10);
+      const postIndex = posts.findIndex((p) => p.id === id);
+
+      if (postIndex !== -1) {
+        posts.splice(postIndex, 1);
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Post deleted successfully" }));
+      } else {
+        response.writeHead(404, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Post not found" }));
+      }
+
+    }else {
+
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 NOT FOUND");
     }
