@@ -5,6 +5,18 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const mongoose = require("mongoose");
+const { URLSearchParams } = require("url");
+
+// Configuración de Mongoose y la base de datos MongoDB
+mongoose.connect('mongodb://localhost:27017/Users', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB conectado con éxito'))
+  .catch(err => console.error('Error al conectar con MongoDB:', err));
+
+// Definir el modelo de Usuario
+const User = mongoose.model('User', new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+}));
 
 function iniciar() {
   function onRequest(request, response) {
@@ -39,7 +51,7 @@ function iniciar() {
       });
     };
 
-    // Route handling
+    // Ruta para servir los archivos estáticos
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
     } else if (pathname === "/inicio") {
@@ -61,14 +73,56 @@ function iniciar() {
       const extname = path.extname(pathname);
       const contentType = mimeTypes[extname] || "application/octet-stream";
       serveFile(`./public${pathname}`, contentType);
-    } else {
-      // Handle 404 Not Found
+    }
+
+    // Ruta para manejar el login (POST)
+    else if (pathname === "/auth/login" && request.method === "POST") {
+      let body = "";
+
+      // Leer los datos del formulario
+      request.on("data", chunk => {
+        body += chunk;
+      });
+
+      request.on("end", async () => {
+        const params = new URLSearchParams(body);
+        const username = params.get("username");
+        const password = params.get("password");
+
+        try {
+          // Buscar el usuario en la base de datos
+          const user = await User.findOne({ username });
+
+          if (!user) {
+            response.writeHead(404, { "Content-Type": "text/plain" });
+            return response.end("Usuario no encontrado");
+          }
+
+          // Validar la contraseña
+          if (user.password !== password) {
+            response.writeHead(401, { "Content-Type": "text/plain" });
+            return response.end("Contraseña incorrecta");
+          }
+
+          // Respuesta en caso de éxito
+          response.writeHead(200, { "Content-Type": "text/plain" });
+          response.end("Inicio de sesión exitoso");
+
+        } catch (err) {
+          response.writeHead(500, { "Content-Type": "text/plain" });
+          response.end("Error en el servidor");
+        }
+      });
+    }
+
+    // Manejo de rutas no encontradas (404)
+    else {
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 NOT FOUND");
     }
   }
 
-  // Start the server
+  // Iniciar el servidor
   http.createServer(onRequest).listen(8888, () => {
     console.log("Servidor iniciat a http://localhost:8888");
   });

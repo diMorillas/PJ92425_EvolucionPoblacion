@@ -9,22 +9,20 @@
 </head>
 <body>
     <div class="form-login">
-        <form action="" class="form2">
+        <form action="/auth/login" method="POST" class="form2">
             <h1>LOGIN</h1>
             <div class="caja-input">
-                <input type="text" placeholder="Nombre" required>
-                <img src="./img/usuario.png" alt="">
+              <input type="text" name="username" placeholder="Nombre" required>
+              <img src="./img/usuario.png" alt="">
             </div>
             <div class="caja-input">
-                <input type="password" placeholder="Contrasenya" required>
-                <img src="./img/cerradura.png" alt="">
-                <img src="./img/cerraduraabierto.png" alt="" style="display: none;">
+              <input type="password" name="password" placeholder="Contraseña" required>
+              <img src="./img/cerradura.png" alt="">
+              <img src="./img/cerraduraabierto.png" alt="" style="display: none;">
             </div>
-            <div class="contra-olvidado" style="display: none;">
-                <a href="#">¿Has olvidado contrasenya?</a>
-            </div><br>
-            <button type="submit" class="btn"><a href="/inicio">Acceder</a></button>
-        </form>
+            <button type="submit" class="btn">Acceder</button>
+          </form>
+          
     </div>
 </body>
 </html>
