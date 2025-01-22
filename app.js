@@ -1,23 +1,28 @@
-/*
- * Servidor HTTP para el PJ9 de DAW2 en Jesuïtes el Clot
- */
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const mongoose = require("mongoose");
+const { mongoose, User } = require("./db/mongoose");  // Importar la conexión y el modelo
 const { URLSearchParams } = require("url");
 
-// Configuración de Mongoose y la base de datos MongoDB
-mongoose.connect('mongodb://localhost:27017/Users', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB conectado con éxito'))
-  .catch(err => console.error('Error al conectar con MongoDB:', err));
+// Crear un usuario por defecto si no existe
+async function createDefaultUser() {
+  try {
+    const existingUser = await User.findOne({ username: 'admin' });
+    if (!existingUser) {
+      const newUser = new User({ username: 'admin', password: '1234' });
+      await newUser.save();
+      console.log('Usuario por defecto "admin" creado con éxito');
+    } else {
+      console.log('El usuario "admin" ya existe');
+    }
+  } catch (error) {
+    console.error('Error al crear el usuario por defecto:', error);
+  }
+}
 
-// Definir el modelo de Usuario
-const User = mongoose.model('User', new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-}));
+createDefaultUser();
 
+// Función para iniciar el servidor
 function iniciar() {
   function onRequest(request, response) {
     const baseURL = `http://${request.headers.host}/`;
