@@ -64,7 +64,7 @@ function iniciar() {
     // Manejo de rutas
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
-    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blog"].includes(pathname)) {
+    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin"].includes(pathname)) {
       serveFile(`./public${pathname}.html`, "text/html");
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
