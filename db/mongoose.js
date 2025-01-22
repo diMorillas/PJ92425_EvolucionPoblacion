@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // URL de conexión
-const mongoURI = 'mongodb://localhost:27017/loginApp';
+const mongoURI = 'mongodb://localhost:27017/Users';
 
 // Conexión con MongoDB
 mongoose
