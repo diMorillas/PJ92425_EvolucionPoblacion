@@ -1,8 +1,8 @@
 /*
  * Servidor HTTP para el PJ9 de DAW2 en Jesuïtes el Clot
  */
-var http = require("http");
-var fs = require('fs');
+const http = require("node:http");
+const fs = require('node:fs');
 const mongoose = require('mongoose');
 
 
