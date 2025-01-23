@@ -3,9 +3,10 @@ const fs = require("fs");
 const path = require("path");
 const { mongoose, User } = require("./db/mongoose");
 const { URLSearchParams } = require("url");
+const cookie = require("cookie");
 
 // Crear un usuario por defecto si no existe
-async function createDefaultUser() {
+async function createDefaultAdmin() {
   try {
     const existingUser = await User.findOne({ username: "admin" });
     if (!existingUser) {
@@ -20,13 +21,35 @@ async function createDefaultUser() {
   }
 }
 
+async function createDefaultUser() {
+  try {
+    const existingUser = await User.findOne({ username: "user" });
+    if (!existingUser) {
+      const newUser = new User({ username: "user", password: "1234" });
+      await newUser.save();
+      console.log('Usuario por defecto "user" creado con éxito');
+    } else {
+      console.log('El usuario "user" ya existe');
+    }
+  } catch (error) {
+    console.error("Error al crear el usuario por defecto:", error);
+  }
+}
+
 createDefaultUser();
+createDefaultAdmin();
 
 // Posts simulados
 let posts = [
   { id: 1, title: "Primer post", content: "Contenido del primer post" },
   { id: 2, title: "Segundo post", content: "Contenido del segundo post" },
 ];
+
+// Función para comprobar si el usuario está autenticado
+const checkAuthentication = (request) => {
+  const cookies = cookie.parse(request.headers.cookie || "");
+  return cookies.session_id;
+};
 
 function iniciar() {
   function onRequest(request, response) {
@@ -61,7 +84,13 @@ function iniciar() {
       });
     };
 
-    // Manejo de rutas lo más dinámico posible (hemos llamado igual a la ruta los archivos para acortar líneas)
+    // Middleware: Verificar si el usuario está autenticado
+    if (!checkAuthentication(request) && pathname !== "/" && pathname !== "/auth/login") {
+      response.writeHead(302, { Location: "/" });
+      return response.end();
+    }
+
+    // Manejo de rutas
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
     } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin","/blog"].includes(pathname)) {
@@ -74,9 +103,7 @@ function iniciar() {
       const extname = path.extname(pathname);
       const contentType = mimeTypes[extname] || "application/octet-stream";
       serveFile(`./public${pathname}`, contentType);
-    }else if(pathname == "/userBlog.js"){
-      serveFile("./public/userBlog.js", "application/javascript");
-    }else if (pathname === "/auth/login" && request.method === "POST") {
+    } else if (pathname === "/auth/login" && request.method === "POST") {
       let body = "";
       request.on("data", (chunk) => {
         body += chunk;
@@ -98,7 +125,7 @@ function iniciar() {
               </script>
             `);
           }
-          
+
           if (user.password !== password) {
             response.writeHead(200, { "Content-Type": "text/html" });
             return response.end(`
@@ -108,6 +135,9 @@ function iniciar() {
               </script>
             `);
           }
+
+          // Crear una "sesión" utilizando cookies
+          response.setHeader("Set-Cookie", cookie.serialize("session_id", "user_logged_in", { path: "/" }));
           
           response.writeHead(302, { Location: "/inicio" });
           response.end();
