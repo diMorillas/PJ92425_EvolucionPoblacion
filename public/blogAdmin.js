@@ -1,34 +1,8 @@
 // Variables del HTML de la página del blog del admin
+import {fetchPostsFromAPI,getPosts} from './apiManager.js'
 const API_URL = "/api/posts"; // Your API endpoint
 const postContainer = document.getElementById("post-container");
 const addPostButton = document.getElementById("add-post");
-
-// Fetch posts from API or localStorage
-export function getPosts() {
-  const cachedPosts = localStorage.getItem("posts"); // Guardadas en "cache"
-
-  if (cachedPosts) {
-    console.log("Loaded posts from localStorage.");
-    renderPosts(JSON.parse(cachedPosts));
-  } else {
-    fetchPostsFromAPI();
-  }
-}
-
-// Basic fetching from the API with a GET to retrieve all the posts in our post array (posts are not stored nor saved into our mongoDB).
-export function fetchPostsFromAPI() {
-  fetch(API_URL)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Fetched posts from server:", data);
-      localStorage.setItem("posts", JSON.stringify(data)); // Cache in localStorage
-      renderPosts(data);
-    })
-    .catch((err) => {
-      console.error("Error fetching posts:", err);
-      postContainer.innerHTML = `<p>Error loading posts. Try again later.</p>`;
-    });
-}
 
 /**
  * Renders posts in the DOM.
@@ -98,7 +72,7 @@ function deletePost(postId) {
 /**
  * Adds a new post.
  */
-function addPost() {
+export function addPost() {
   const id = document.getElementById("id_post").value.trim();
   const title = document.getElementById("title").value.trim();
   const content = document.getElementById("content").value.trim();

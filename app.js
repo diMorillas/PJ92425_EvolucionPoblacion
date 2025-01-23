@@ -68,14 +68,12 @@ function iniciar() {
       serveFile(`./public${pathname}.html`, "text/html");
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
-    } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js") {
+    }else if (pathname === "/quizz.js" || pathname === "/blogAdmin.js" || pathname === "userBlog.js" || pathname === "apiManager.js") {
       serveFile(`./public${pathname}`, "application/javascript");
     } else if (pathname.startsWith("/img/")) {
       const extname = path.extname(pathname);
       const contentType = mimeTypes[extname] || "application/octet-stream";
       serveFile(`./public${pathname}`, contentType);
-    }else if(pathname == "/userBlog.js"){
-      serveFile("./public/userBlog.js", "application/javascript");
     }else if (pathname === "/auth/login" && request.method === "POST") {
       let body = "";
       request.on("data", (chunk) => {

@@ -1,20 +1,11 @@
-import {fetchPostsFromAPI } from "./apiConsumer.js";
+import {getPostsSidebar} from "./apiManager.js";
 const API_URL = "/api/posts"; // Your API endpoint
 const sidebarPosts = document.getElementById("sidebar-posts");
 const postTitle = document.getElementById("post-title");
 const postBody = document.getElementById("post-body");
 
 // Función para obtener los posts desde la API o localStorage
-export function getPostsSidebar() {
-  const cachedPosts = localStorage.getItem("posts");
 
-  if (cachedPosts) {
-    console.log("Loaded posts from localStorage.");
-    renderSidebarPosts(JSON.parse(cachedPosts)); // Renderiza los títulos en la barra lateral
-  } else {
-    fetchPostsFromAPI();
-  }
-}
 
 // Renderiza los títulos de los posts en la barra lateral
 export function renderSidebarPosts(posts) {
@@ -40,17 +31,6 @@ export function renderSidebarPosts(posts) {
   });
 }
 
-// Muestra el contenido del post seleccionado
-function displayPostContent(postId) {
-  const posts = JSON.parse(localStorage.getItem("posts")) || [];
-  const selectedPost = posts.find((post) => post.id === parseInt(postId));
-  console.log(selectedPost);
-
-  if (selectedPost) {
-    postTitle.textContent = selectedPost.title;
-    postBody.textContent = selectedPost.content;
-  }
-}
 
 // Cargar los posts cuando se cargue el DOM
 document.addEventListener("DOMContentLoaded", () => {
