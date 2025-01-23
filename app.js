@@ -88,15 +88,25 @@ function iniciar() {
           const user = await User.findOne({ username });
 
           if (!user) {
-            response.writeHead(404, { "Content-Type": "text/plain" });
-            return response.end("Usuario no encontrado");
+            response.writeHead(200, { "Content-Type": "text/html" });
+            return response.end(`
+              <script>
+                alert("Usuario no encontrado");
+                window.location.href = "/";
+              </script>
+            `);
           }
-
+          
           if (user.password !== password) {
-            response.writeHead(401, { "Content-Type": "text/plain" });
-            return response.end("Contraseña incorrecta");
+            response.writeHead(200, { "Content-Type": "text/html" });
+            return response.end(`
+              <script>
+                alert("Contraseña incorrecta");
+                window.location.href = "/";
+              </script>
+            `);
           }
-
+          
           response.writeHead(302, { Location: "/inicio" });
           response.end();
         } catch (err) {
