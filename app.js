@@ -68,7 +68,7 @@ function iniciar() {
       serveFile(`./public${pathname}.html`, "text/html");
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
-    }else if (pathname === "/quizz.js" || pathname === "/blogAdmin.js" || pathname === "userBlog.js" || pathname === "apiManager.js") {
+    }else if (pathname === "/quizz.js" || pathname === "/blogAdmin.js" || pathname === "/userBlog.js" || pathname === "/apiManager.js") {
       serveFile(`./public${pathname}`, "application/javascript");
     } else if (pathname.startsWith("/img/")) {
       const extname = path.extname(pathname);

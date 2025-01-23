@@ -29,7 +29,7 @@ export function getPosts() {
 
 /** USERS BLOG */
 
-export function getPostsSidebar(getFrom) {
+export function getPostsSidebar() {
   const cachedPosts = localStorage.getItem("posts");
 
   if (cachedPosts) {
@@ -40,8 +40,33 @@ export function getPostsSidebar(getFrom) {
   }
 }
 
+// Renderiza los títulos de los posts en la barra lateral
+function renderSidebarPosts(posts) {
+    if (!posts.length) {
+      sidebarPosts.innerHTML = "<p>No posts yet. Add a new post!</p>";
+      return;
+    }
+  
+    let postsHTML = "";
+    posts.forEach((post) => {
+      postsHTML += `<li data-id="${post.id}">${post.title}</li>`;
+    });
+  
+    sidebarPosts.innerHTML = postsHTML;
+  
+    // Agregar evento de clic a cada título de post
+    const postItems = document.querySelectorAll(".sidebar ul li");
+    postItems.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        const postId = event.target.getAttribute("data-id");
+        displayPostContent(postId);
+      });
+    });
+  }
+
+
 // Muestra el contenido del post seleccionado
-export function displayPostContent(postId) {
+function displayPostContent(postId) {
     const posts = JSON.parse(localStorage.getItem("posts")) || [];
     const selectedPost = posts.find((post) => post.id === parseInt(postId));
     console.log(selectedPost);
