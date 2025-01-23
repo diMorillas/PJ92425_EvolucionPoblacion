@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Posts</title>
+  <link rel="stylesheet" href="./styles.css"></head>
+<body>
+  <!-- Botón Volver a Inicio -->
+
+  <nav>
+    <div class="nav-container">
+        <img src="../img/logo-nav.png" alt="Logo">
+        <ul class="nav-enlaces">
+            <li><a href="/inicio">Gráfico</a></li>
+            <li><a href="/quizz">Quizz</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a style="color: blue;" href="/about">Sobre Nosotros</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+        </ul>
+        <div class="logout">
+            <a href="/index">Log out</a>
+        </div>
+    </div>
+</nav>
+
+
+  <h1>Blog de Usuarios</h1>
+
+  <!-- Contenedor de los posts -->
+  <div id="post-container"></div>
+
+  <!-- Enlace al script de la página -->
+  <script type="module" src="./userBlog.js"></script>
+</body>
+</html>

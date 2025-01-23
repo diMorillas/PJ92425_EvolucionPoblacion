@@ -74,7 +74,9 @@ function iniciar() {
       const extname = path.extname(pathname);
       const contentType = mimeTypes[extname] || "application/octet-stream";
       serveFile(`./public${pathname}`, contentType);
-    } else if (pathname === "/auth/login" && request.method === "POST") {
+    }else if(pathname == "/userBlog.js"){
+      serveFile("./public/userBlog.js", "application/javascript");
+    }else if (pathname === "/auth/login" && request.method === "POST") {
       let body = "";
       request.on("data", (chunk) => {
         body += chunk;

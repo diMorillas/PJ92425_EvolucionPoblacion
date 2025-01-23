@@ -1,10 +1,17 @@
+
+
+//Variables del HTML de la página del blog del admin
 const API_URL = "/api/posts"; // Your API endpoint
 const postContainer = document.getElementById("post-container");
 const addPostButton = document.getElementById("add-post");
 
 // Fetch posts from API or localStorage
-function getPosts() {
-  const cachedPosts = localStorage.getItem("posts");
+
+/**
+ * Post object is returned from de backend with a GET. If we look closer the function invoques the renderPosts() to load them into the webPage if we have them in LocalStorage. However if this happens to be false it makes a fetch to our api using fetchPostsFromApi() and making a GET request.
+ */
+ export function getPosts() {
+  const cachedPosts = localStorage.getItem("posts"); //guardades en "cache"
 
   if (cachedPosts) {
     console.log("Loaded posts from localStorage.");
@@ -14,8 +21,10 @@ function getPosts() {
   }
 }
 
-// Fetch posts from the server
-function fetchPostsFromAPI() {
+/**
+ * Basic fetching from the api with a GET to retrieve all the posts in our post array (pots are not stored nor saved into our mongoDB).
+ */
+ export function fetchPostsFromAPI() {
   fetch(API_URL)
     .then((response) => response.json())
     .then((data) => {
@@ -29,9 +38,13 @@ function fetchPostsFromAPI() {
     });
 }
 
-// Render posts to the DOM
-// Renderizar posts (loopearlos y generarlos con JS)
-function renderPosts(posts) {
+
+/**
+ * 
+ * @param {posts from the api as a JSON} posts 
+ * @returns it creates all the posts in the DOM looping trhough the api response. Creates the post html until it reaches the end of the response.
+ */
+export function renderPosts(posts) {
     if (!posts.length) {
       postContainer.innerHTML = "<p>No posts yet. Add a new post!</p>";
       return;
@@ -39,7 +52,7 @@ function renderPosts(posts) {
   
     let postsHTML = ""; // Aquí almacenaremos el HTML generado
   
-    // Recorremos los posts con un bucle for
+    // Recorremos los posts con un bucle for y le añadirmos el html
     for (let i = 0; i < posts.length; i++) {
       postsHTML += `
         <div class="post" data-id="${posts[i].id}">
@@ -50,9 +63,9 @@ function renderPosts(posts) {
       `;
     }
   
-    postContainer.innerHTML = postsHTML;
+    postContainer.innerHTML = postsHTML; //This is where we change the html of our "container"
   
-    // Agregar evento de eliminar a cada botón
+    //eventListener to delete buttons
     const deleteButtons = document.querySelectorAll(".delete-post");
     deleteButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
@@ -63,7 +76,11 @@ function renderPosts(posts) {
   }
 
   
-// Eliminar un post
+/**
+ * 
+ * @param {string} postId
+ * makes a DELETE request to our api and deletes a post if it matches with the ID we have given 
+ */
 function deletePost(postId) {
     // Enviar solicitud DELETE al servidor
     fetch(`${API_URL}/${postId}`, {
@@ -92,6 +109,11 @@ function deletePost(postId) {
   
 
 // Add a new post
+/**
+ * 
+ * @returns Creates and renders a post. Firstly it fethces the API with a POST request. After the fetch it updates localStorage and adds our new post,
+ * Ultimately re renders all the posts with the new one and clears variables to avoid duplicate date when we trigger an addPost() again.
+ */
 function addPost() {
   const title = document.getElementById("title").value.trim();
   const content = document.getElementById("content").value.trim();
@@ -129,7 +151,9 @@ function addPost() {
     .catch((err) => console.error("Error adding post:", err));
 }
 
-// Initialize the app
+// Cargar los posts cuando cargue el dom (parecido a un window.onload)
+
+
 document.addEventListener("DOMContentLoaded", () => {
   getPosts();
   addPostButton.addEventListener("click", addPost);
