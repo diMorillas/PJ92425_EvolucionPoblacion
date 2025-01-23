@@ -61,10 +61,10 @@ function iniciar() {
       });
     };
 
-    // Manejo de rutas
+    // Manejo de rutas lo más dinámico posible (hemos llamado igual a la ruta los archivos para acortar líneas)
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
-    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin"].includes(pathname)) {
+    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin","/blog"].includes(pathname)) {
       serveFile(`./public${pathname}.html`, "text/html");
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
