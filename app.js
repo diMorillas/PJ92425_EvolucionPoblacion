@@ -5,7 +5,6 @@ const { mongoose, User } = require("./db/mongoose");
 const { URLSearchParams } = require("url");
 const cookie = require("cookie");
 
-// Crear un usuario por defecto si no existe
 async function createDefaultAdmin() {
   try {
     const existingUser = await User.findOne({ username: "admin" });
@@ -93,7 +92,7 @@ function iniciar() {
     // Manejo de rutas
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
-    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin","/blog"].includes(pathname)) {
+    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog"].includes(pathname)) {
       serveFile(`./public${pathname}.html`, "text/html");
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
@@ -146,6 +145,18 @@ function iniciar() {
           response.end("Error en el servidor");
         }
       });
+    } else if (pathname === "/auth/logout" && request.method === "GET") {
+      // Borrar la cookie de sesión
+      response.setHeader(
+        "Set-Cookie",
+        cookie.serialize("session_id", "", {
+          path: "/",
+          expires: new Date(0),
+        })
+      );
+      
+      response.writeHead(302, { Location: "/" });
+      response.end();
     } else if (pathname === "/api/posts" && request.method === "GET") {
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(posts));
