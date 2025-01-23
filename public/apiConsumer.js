@@ -68,30 +68,32 @@ export function renderPosts(posts) {
  * @param {string} postId - The ID of the post to delete.
  */
 function deletePost(postId) {
-  // Send DELETE request to the server
+  // Enviar la solicitud DELETE al servidor
   fetch(`${API_URL}/${postId}`, {
     method: "DELETE",
   })
     .then((response) => {
       if (!response.ok) {
+        console.log(`Error al intentar eliminar el post con ID: ${postId}`);
         throw new Error("Error deleting post");
       }
-      return response.json();
+      return response.json(); // Procesar la respuesta JSON
     })
     .then((data) => {
       console.log(data.message);
 
-      // Update localStorage after deletion
+      // Actualizar localStorage después de la eliminación
       const cachedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-      const updatedPosts = cachedPosts.filter((post) => post.id !== parseInt(postId));
+      const updatedPosts = cachedPosts.filter((post) => post.id !== postId); // Comparar como string
 
       localStorage.setItem("posts", JSON.stringify(updatedPosts));
 
-      // Re-render posts
+      // Re-renderizar los posts en la interfaz
       renderPosts(updatedPosts);
     })
     .catch((err) => console.error("Error deleting post:", err));
 }
+
 
 /**
  * Adds a new post.
@@ -140,5 +142,6 @@ function addPost() {
 // Load posts when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   getPosts();
+  //localStorage.clear();
   addPostButton.addEventListener("click", addPost);
 });
