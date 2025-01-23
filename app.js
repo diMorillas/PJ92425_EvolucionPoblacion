@@ -84,7 +84,12 @@ function iniciar() {
     };
 
     // Middleware: Verificar si el usuario está autenticado
-    if (!checkAuthentication(request) && pathname !== "/" && pathname !== "/auth/login") {
+    if (checkAuthentication(request)) {
+      if (pathname === "/") {
+        response.writeHead(302, { Location: "/inicio" });
+        return response.end();
+      }
+    } else if (!checkAuthentication(request) && pathname !== "/" && pathname !== "/auth/login") {
       response.writeHead(302, { Location: "/" });
       return response.end();
     }
