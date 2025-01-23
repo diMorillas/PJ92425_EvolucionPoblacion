@@ -6,7 +6,6 @@ const addPostButton = document.getElementById("add-post");
 // Fetch posts from API or localStorage
 export function getPosts() {
   const cachedPosts = localStorage.getItem("posts"); // Guardadas en "cache"
-
   if (cachedPosts) {
     console.log("Loaded posts from localStorage.");
     renderPosts(JSON.parse(cachedPosts));
@@ -22,7 +21,6 @@ export function fetchPostsFromAPI() {
     .then((data) => {
       console.log("Fetched posts from server:", data);
       localStorage.setItem("posts", JSON.stringify(data)); // Cache in localStorage
-      renderPosts(data);
     })
     .catch((err) => {
       console.error("Error fetching posts:", err);
