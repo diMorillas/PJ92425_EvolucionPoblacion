@@ -3,34 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Posts</title>
-  <link rel="stylesheet" href="./styles.css"></head>
+  <title>Blog</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
 <body>
-  <!-- Botón Volver a Inicio -->
-
+  <!-- Barra de navegación -->
   <nav>
     <div class="nav-container">
-        <img src="../img/logo-nav.png" alt="Logo">
-        <ul class="nav-enlaces">
-            <li><a href="/inicio">Gráfico</a></li>
-            <li><a href="/quizz">Quizz</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a style="color: blue;" href="/about">Sobre Nosotros</a></li>
-            <li><a href="/contacto">Contacto</a></li>
-        </ul>
-        <div class="logout">
-            <a href="/index">Log out</a>
-        </div>
+      <img src="../img/logo-nav.png" alt="Logo">
+      <ul class="nav-enlaces">
+        <li><a href="/inicio">Gráfico</a></li>
+        <li><a href="/quizz">Quizz</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a style="color: blue;" href="/about">Sobre Nosotros</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+      </ul>
+      <div class="logout">
+        <a href="/index">Log out</a>
+      </div>
     </div>
-</nav>
+  </nav>
 
+  <div class="main-container">
+    <!-- Barra lateral con los títulos de los posts -->
+    <div id="sidebar" class="sidebar">
+      <h2>Posts</h2>
+      <ul id="sidebar-posts">
+        <!-- Los títulos de los posts se añadirán aquí dinámicamente -->
+      </ul>
+    </div>
 
-  <h1>Blog de Usuarios</h1>
+    <!-- Contenedor central para mostrar el contenido completo del post -->
+    <div id="post-content" class="content">
+      <h1 id="post-title">Seleccione un post</h1>
+      <p id="post-body">Haz clic en un título para ver el contenido.</p>
+    </div>
+  </div>
 
-  <!-- Contenedor de los posts -->
-  <div id="post-container"></div>
-
-  <!-- Enlace al script de la página -->
   <script type="module" src="./userBlog.js"></script>
 </body>
 </html>
