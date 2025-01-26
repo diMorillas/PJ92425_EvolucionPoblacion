@@ -144,6 +144,19 @@ function addPost() {
     .catch((err) => console.error("Error adding post:", err));
 }
 
+
+function modifyPost(postId){
+  fetch(API_URL, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({id:postId})
+  })
+
+}
+
+
 // Load posts when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   getPosts();

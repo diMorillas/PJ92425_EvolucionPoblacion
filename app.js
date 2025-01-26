@@ -198,6 +198,20 @@ function iniciar() {
         response.end(JSON.stringify({ message: "Post no encontrado" }));
       }
       return;
+    }else if(pathname.startsWith("/api/posts") && request.method == "PUT"){
+      const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
+      if (postIndex !== -1) {
+        posts.postIndex.id = request.body.id;
+        posts.postIndex.title = request.body.title;
+        posts.postIndex.content = request.body.content;
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Post eliminado con éxito" }));
+      } else {
+        response.writeHead(404, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Post no encontrado" }));
+      }
+      return;      
+
     } else {
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 NOT FOUND");
