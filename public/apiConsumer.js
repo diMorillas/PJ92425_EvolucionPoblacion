@@ -55,15 +55,19 @@ export function renderPosts(posts) {
 
   postContainer.innerHTML = postsHTML; // Update the container with the posts' HTML
 
-  // Add event listeners to the delete buttons
-  const deleteButtons = document.querySelectorAll(".delete-post"); // Seleccionar todos los botones
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      const postId = event.target.closest(".post").getAttribute("data-id");
-      deletePost(postId); // Llamar a la función de eliminación con el ID del post
-    });
-  });
 }
+
+let botonEliminar = document.getElementById("delete-post");
+botonEliminar.addEventListener("click",()=>{
+  let idPost = document.getElementById("id_post").value.trim();
+  console.log(idPost)
+  console.log(botonEliminar);
+  console.log("delete click");
+  console.log(idPost);
+  deletePost(idPost);
+
+});
+
 
 /**
  * Deletes a post by its ID.
