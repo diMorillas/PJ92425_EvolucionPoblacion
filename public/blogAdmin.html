@@ -150,6 +150,14 @@ textarea{
   background-color: #45a049; /* Verde más oscuro */
 }
 
+.button-container{
+ display: flex;
+ align-items: center;
+ justify-content: flex-start;
+ flex-direction: row;
+ gap: 10px;
+}
+
 </style>
 
 </head>
@@ -167,8 +175,11 @@ textarea{
       <input type="text" id="id_post" placeholder="introduce el id...">
       <input type="text" id="title" placeholder="Title" />
       <textarea id="content" placeholder="Content"></textarea>
-      <button id="add-post">Añadir Post</button>
-
+      <div class="button-container">
+      <button id="add-post">Añadir</button>
+      <button id="modify-post">Modificar</button>
+      <button id="delete-post">Eliminar</button>
+      </div>
     <div id="posts">
       <h2>Posts</h2>
       <div id="post-container"></div>
