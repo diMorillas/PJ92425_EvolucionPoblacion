@@ -21,6 +21,7 @@ export function fetchPostsFromAPI() {
     .then((data) => {
       console.log("Fetched posts from server:", data);
       localStorage.setItem("posts", JSON.stringify(data)); // Cache in localStorage
+      renderPosts(data); // Renderizar posts al obtenerlos
     })
     .catch((err) => {
       console.error("Error fetching posts:", err);
@@ -44,6 +45,7 @@ export function renderPosts(posts) {
   for (let i = 0; i < posts.length; i++) {
     postsHTML += `
       <div class="post" data-id="${posts[i].id}">
+        <p>${posts[i].id}</p>
         <h3>${posts[i].title}</h3>
         <p>${posts[i].content}</p>
         <button class="delete-post">Delete</button>
@@ -54,11 +56,11 @@ export function renderPosts(posts) {
   postContainer.innerHTML = postsHTML; // Update the container with the posts' HTML
 
   // Add event listeners to the delete buttons
-  const deleteButtons = document.querySelectorAll(".delete-post");
+  const deleteButtons = document.querySelectorAll(".delete-post"); // Seleccionar todos los botones
   deleteButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       const postId = event.target.closest(".post").getAttribute("data-id");
-      deletePost(postId);
+      deletePost(postId); // Llamar a la función de eliminación con el ID del post
     });
   });
 }
@@ -94,7 +96,6 @@ function deletePost(postId) {
     .catch((err) => console.error("Error deleting post:", err));
 }
 
-
 /**
  * Adds a new post.
  */
@@ -109,7 +110,7 @@ function addPost() {
     return;
   }
 
-  const newPost = { id, title, content };
+  const newPost = { id:id, title:title, content:content };
 
   // Send POST request to add the post
   fetch(API_URL, {
@@ -142,6 +143,5 @@ function addPost() {
 // Load posts when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   getPosts();
-  //localStorage.clear();
   addPostButton.addEventListener("click", addPost);
 });

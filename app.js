@@ -170,7 +170,6 @@ function iniciar() {
       });
       request.on("end", () => {
         const newPost = JSON.parse(body);
-        newPost.id = posts.length ? posts[posts.length - 1].id + 1 : 1;
         posts.push(newPost);
 
         response.writeHead(201, { "Content-Type": "application/json" });
