@@ -92,7 +92,7 @@ function iniciar() {
 
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
-    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog"].includes(pathname)) {
+    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies"].includes(pathname)) {
       
       // Bloqueo de acceso a /blogAdmin para usuario "user" (no hay roles de usuario)
       if (pathname === "/blogAdmin") {
@@ -144,7 +144,7 @@ function iniciar() {
             response.writeHead(200, { "Content-Type": "text/html" });
             return response.end(`
               <script>
-                alert("Contraseña incorrecta");
+                alert("Datos incorrectos");
                 window.location.href = "/";
               </script>
             `);
