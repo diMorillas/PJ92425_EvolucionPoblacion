@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,7 @@
     <link rel="icon" type="image/x-icon" href="../img/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav>
@@ -27,23 +26,14 @@
             </div>
         </div>
     </nav>
-</head>
 
-<body>
     <h1 id="tituloGrafico">Seleccione una gráfica</h1>
 
     <div id="GrafBarras" class="grafico-container" style="display: none;">
         <canvas id="canvasBarras" width="400" height="400"></canvas>
         <button class="saberMas" onclick="toggleTexto('textoBarras')">Saber más</button>
         <div id="textoBarras" class="texto-desplegable" style="display: none;">
-            <p>
-                2000 a.C: Época del Imperio Egipcio<br>
-                100 a.C: Plenitud y apogeo del Imperio Romano<br>
-                711: Invasión Árabe de la Península<br>
-                1492: Conquista de América<br>
-                1789: Revolución Industrial<br>
-                1850: <em>(Falta información)</em>
-            </p>
+            <p>2000 a.C: Época del Imperio Egipcio<br>100 a.C: Plenitud y apogeo del Imperio Romano<br>711: Invasión Árabe de la Península<br>1492: Conquista de América<br>1789: Revolución Industrial<br>1850:</p>
         </div>
     </div>
 
@@ -51,8 +41,8 @@
         <canvas id="canvasProgresion" width="400" height="400"></canvas>
         <button class="saberMas" onclick="toggleTexto('textoProgresion')">Saber más</button>
         <div id="textoProgresion" class="texto-desplegable" style="display: none;">
-            <b><p>Predicción de la evolución de la población mundial</p></b><br>
-                <p>En los próximos 56 años la población seguirá creciendo pero a un nivel más lento que al de los últimos años</p>
+            <b><p>Predicción de la evolución de la población mundial</p></b>
+            <p>En los próximos 56 años la población seguirá creciendo pero a un nivel más lento que al de los últimos años</p>
         </div>
     </div>
 
@@ -73,14 +63,19 @@
             <b>10. México: 132 millones de habitantes</b><br>
         </div>
     </div>
+    <div id="mapaContainer" class="grafico-container" >
+        <canvas id="canvas" width="1500" height="800"></canvas>
+        <div id="mapa" class="mapa"></div>
+    </div>
+    
 
     <div class="menu-grid">
         <button onclick="mostrarGrafico('GrafBarras', 'Gráfico de Barras')">Gráfico de Barras</button>
         <button onclick="mostrarGrafico('graficoProgresion', 'Gráfico de Progresión')">Gráfico de Progresión</button>
         <button onclick="mostrarGrafico('graficoPastel', 'Gráfico de Pastel')">Gráfico de Pastel</button>
+        <button onclick="mostrarGrafico('mapaContainer', 'Mapa del mundo')">Mapa</button>
     </div>
 
     <script src="graficas.js"></script>
 </body>
-
 </html>
