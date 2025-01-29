@@ -92,7 +92,7 @@ function iniciar() {
 
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
-    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies"].includes(pathname)) {
+    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies", "/terminos"].includes(pathname)) {
       
       // Bloqueo de acceso a /blogAdmin para usuario "user" (no hay roles de usuario)
       if (pathname === "/blogAdmin") {
