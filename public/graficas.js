@@ -76,7 +76,7 @@ const canvasBarras = document.getElementById('canvasBarras');
 //Grafico de progresión--Proyeccion de poblacion 2024-2080
 const canvasProgresion = document.getElementById('canvasProgresion').getContext('2d');
 
-
+// Limpiar el canvas y definir el tamaño
 canvasProgresion.clearRect(0, 0, canvasProgresion.canvas.width, canvasProgresion.canvas.height);
 canvasProgresion.canvas.width = 500; 
 canvasProgresion.canvas.height = 400; 
@@ -212,38 +212,38 @@ const mapa = document.getElementById("mapa");
 const canvasMapa = document.getElementById("canvas")
 
 const imagenFondo = new Image();
-imagenFondo.src = '../img/mapa.png';
+imagenFondo.src = './img/mapa.png';
 
 const paises = [
-  { nombre: "España", center: [700, 200], radio: 10, bandera: '../img/españa.png', poblacion: 47, descripcion: "Población de España",  densidad: 93},
-  { nombre: "Francia", center: [720, 170], radio: 10, bandera: "../img/francia.png", poblacion: 67, descripcion: "Población de Francia", densidad: 120}, 
-  { nombre: "Italia", center: [755, 185], radio: 10, bandera: "../img/italia.png", poblacion: 60, descripcion: "Población de Italia", densidad: 200},
-  { nombre: "Alemania", center: [750, 150], radio: 10, bandera: "../img/alemania.png", poblacion: 83, descripcion: "Población de Alemania", densidad: 230},
-  { nombre: "Reino Unido", center: [705, 130], radio: 10, bandera: "../img/reinounido.png", poblacion: 66, descripcion: "Población de Reino Unido", densidad: 270},
-  { nombre: "Estados Unidos", center: [320, 200], radio: 10, bandera: "../img/EstadosUnidos.png", poblacion: 331, descripcion: "Población de Estados Unidos", densidad: 35},
-  { nombre: "Mexico", center: [300, 290], radio: 10, bandera: "../img/mexico.png", poblacion: 128, descripcion: "Población de México", densidad: 66},
-  { nombre: "Brazil", center: [500, 450], radio: 10, bandera: "../img/brazil.png", poblacion: 212, descripcion: "Población de Brasil", densidad: 25},
-  { nombre: "Argentina", center: [460, 570], radio: 10, bandera: "../img/argentina.png", poblacion: 44, descripcion: "Población de Argentina", densidad: 16},
-  { nombre: "China", center: [1100, 220], radio: 10, bandera: "../img/china.png", poblacion: 1393, descripcion: "Población de China", densidad: 145},
-  { nombre: "India", center: [1030, 300], radio: 10, bandera: "../img/india.png", poblacion: 1380, descripcion: "Población de India", densidad: 420},
-  { nombre: "Australia", center: [1250, 520], radio: 10, bandera: "../img/australia.png", poblacion: 25, descripcion: "Población de Australia", densidad: 3},
-  { nombre: "Japon", center: [1250, 210], radio: 10, bandera: "../img/japon.png", poblacion: 126, descripcion: "Población de Japón", densidad: 334},
-  { nombre: "Canadá", center: [350, 100], radio: 10, bandera: "../img/canada.png", poblacion: 37, descripcion: "Población de Canadá", densidad: 4},
-  { nombre: "Sudáfrica", center: [800, 550], radio: 10, bandera: "../img/sudafrica.png", poblacion: 59, descripcion: "Población de Sudáfrica", densidad: 49},
-  { nombre: "Rusia", center: [1000, 100], radio: 10, bandera: "../img/rusia.png", poblacion: 144, descripcion: "Población de Rusia", densidad: 8},
-  { nombre: "Egipto", center: [825, 270], radio: 10, bandera: "../img/egipto.png", poblacion: 104, descripcion: "Población de Egipto", densidad: 100},
-  { nombre: "Pakistán", center: [990, 250], radio: 10, bandera: "../img/pakistan.png", poblacion: 220, descripcion: "Población de Pakistán", densidad: 300},
-  { nombre: "Indonesia", center: [1200, 420], radio: 10, bandera: "../img/indonesia.png", poblacion: 273, descripcion: "Población de Indonesia", densidad: 151},
-  { nombre: "Nigeria", center: [740, 350], radio: 10, bandera: "../img/nigeria.png", poblacion: 206, descripcion: "Población de Nigeria", densidad: 210},
-  { nombre: "Bangladesh", center: [1075, 280], radio: 10, bandera: "../img/bangladesh.png", poblacion: 165, descripcion: "Población de Bangladesh", densidad: 1265},
-  { nombre: "Israel", center: [850, 245], radio: 10, bandera: "../img/Israel.png", poblacion: 9, descripcion: "Población de Israel", densidad: 415},
-  { nombre: "Singapur", center: [1140, 390], radio: 10, bandera: "../img/singapur.png", poblacion: 5.5, descripcion: "Población de Singapur", densidad: 8358},
-  { nombre: "Vietnam", center: [1160, 330], radio: 10, bandera: "../img/vietnam.png", poblacion: 97, descripcion: "Población de Vietnam", densidad: 315},
-  { nombre: "Filipinas", center: [1220, 340], radio: 10, bandera: "../img/filipinas.png", poblacion: 109, descripcion: "Población de Filipinas", densidad: 368},
-  { nombre: "Países Bajos", center: [730, 140], radio: 10, bandera: "../img/paisesbajos.png", poblacion: 17, descripcion: "Población de Países Bajos", densidad: 521},
-  { nombre: "Taiwán", center: [1200, 280], radio: 10, bandera: "../img/taiwan.png", poblacion: 24, descripcion: "Población de Taiwán", densidad: 672},
-  { nombre: "Corea del Sur", center: [1210, 220], radio: 10, bandera: "../img/coreasur.png", poblacion: 52, descripcion: "Población de Corea del Sur", densidad: 527},
-  { nombre: "Corea del Norte", center: [1200, 200], radio: 10, bandera: "../img/coreanorte.png", poblacion: 25, descripcion: "Población de Corea del Norte", densidad: 214}
+  { nombre: "España", center: [700, 200], radio: 10, bandera: './img/españa.png', poblacion: 47, descripcion: "Población de España",  densidad: 93},
+  { nombre: "Francia", center: [720, 170], radio: 10, bandera: "./img/francia.png", poblacion: 67, descripcion: "Población de Francia", densidad: 120}, 
+  { nombre: "Italia", center: [755, 185], radio: 10, bandera: "./img/italia.png", poblacion: 60, descripcion: "Población de Italia", densidad: 200},
+  { nombre: "Alemania", center: [750, 150], radio: 10, bandera: "./img/alemania.png", poblacion: 83, descripcion: "Población de Alemania", densidad: 230},
+  { nombre: "Reino Unido", center: [705, 130], radio: 10, bandera: "./img/reinounido.png", poblacion: 66, descripcion: "Población de Reino Unido", densidad: 270},
+  { nombre: "Estados Unidos", center: [320, 200], radio: 10, bandera: "./img/EstadosUnidos.png", poblacion: 331, descripcion: "Población de Estados Unidos", densidad: 35},
+  { nombre: "Mexico", center: [300, 290], radio: 10, bandera: "./img/mexico.png", poblacion: 128, descripcion: "Población de México", densidad: 66},
+  { nombre: "Brazil", center: [500, 450], radio: 10, bandera: "./img/brazil.png", poblacion: 212, descripcion: "Población de Brasil", densidad: 25},
+  { nombre: "Argentina", center: [460, 570], radio: 10, bandera: "./img/argentina.png", poblacion: 44, descripcion: "Población de Argentina", densidad: 16},
+  { nombre: "China", center: [1100, 220], radio: 10, bandera: "./img/china.png", poblacion: 1393, descripcion: "Población de China", densidad: 145},
+  { nombre: "India", center: [1030, 300], radio: 10, bandera: "./img/india.png", poblacion: 1380, descripcion: "Población de India", densidad: 420},
+  { nombre: "Australia", center: [1250, 520], radio: 10, bandera: "./img/australia.png", poblacion: 25, descripcion: "Población de Australia", densidad: 3},
+  { nombre: "Japon", center: [1250, 210], radio: 10, bandera: "./img/japon.png", poblacion: 126, descripcion: "Población de Japón", densidad: 334},
+  { nombre: "Canadá", center: [350, 100], radio: 10, bandera: "./img/canada.png", poblacion: 37, descripcion: "Población de Canadá", densidad: 4},
+  { nombre: "Sudáfrica", center: [800, 550], radio: 10, bandera: "./img/sudafrica.png", poblacion: 59, descripcion: "Población de Sudáfrica", densidad: 49},
+  { nombre: "Rusia", center: [1000, 100], radio: 10, bandera: "./img/rusia.png", poblacion: 144, descripcion: "Población de Rusia", densidad: 8},
+  { nombre: "Egipto", center: [825, 270], radio: 10, bandera: "./img/egipto.png", poblacion: 104, descripcion: "Población de Egipto", densidad: 100},
+  { nombre: "Pakistán", center: [990, 250], radio: 10, bandera: "./img/pakistan.png", poblacion: 220, descripcion: "Población de Pakistán", densidad: 300},
+  { nombre: "Indonesia", center: [1200, 420], radio: 10, bandera: "./img/indonesia.png", poblacion: 273, descripcion: "Población de Indonesia", densidad: 151},
+  { nombre: "Nigeria", center: [740, 350], radio: 10, bandera: "./img/nigeria.png", poblacion: 206, descripcion: "Población de Nigeria", densidad: 210},
+  { nombre: "Bangladesh", center: [1075, 280], radio: 10, bandera: "./img/bangladesh.png", poblacion: 165, descripcion: "Población de Bangladesh", densidad: 1265},
+  { nombre: "Israel", center: [850, 245], radio: 10, bandera: "./img/Israel.png", poblacion: 9, descripcion: "Población de Israel", densidad: 415},
+  { nombre: "Singapur", center: [1140, 390], radio: 10, bandera: "./img/singapur.png", poblacion: 5.5, descripcion: "Población de Singapur", densidad: 8358},
+  { nombre: "Vietnam", center: [1160, 330], radio: 10, bandera: "./img/vietnam.png", poblacion: 97, descripcion: "Población de Vietnam", densidad: 315},
+  { nombre: "Filipinas", center: [1220, 340], radio: 10, bandera: "./img/filipinas.png", poblacion: 109, descripcion: "Población de Filipinas", densidad: 368},
+  { nombre: "Países Bajos", center: [730, 140], radio: 10, bandera: "./img/paisesbajos.png", poblacion: 17, descripcion: "Población de Países Bajos", densidad: 521},
+  { nombre: "Taiwán", center: [1200, 280], radio: 10, bandera: "./img/taiwan.png", poblacion: 24, descripcion: "Población de Taiwán", densidad: 672},
+  { nombre: "Corea del Sur", center: [1210, 220], radio: 10, bandera: "./img/coreasur.png", poblacion: 52, descripcion: "Población de Corea del Sur", densidad: 527},
+  { nombre: "Corea del Norte", center: [1200, 200], radio: 10, bandera: "./img/coreanorte.png", poblacion: 25, descripcion: "Población de Corea del Norte", densidad: 214}
 ];
 
 imagenFondo.onload = function() {
