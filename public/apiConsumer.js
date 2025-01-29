@@ -2,7 +2,7 @@
 const API_URL = "/api/posts"; // Your API endpoint
 const postContainer = document.getElementById("post-container");
 const addPostButton = document.getElementById("add-post");
-const modifyPostButton = document.getElementById("modify-post");
+
 // Fetch posts from API or localStorage
 export function getPosts() {
   const cachedPosts = localStorage.getItem("posts"); // Guardadas en "cache"
@@ -48,35 +48,22 @@ export function renderPosts(posts) {
         <p>${posts[i].id}</p>
         <h3>${posts[i].title}</h3>
         <p>${posts[i].content}</p>
+        <button class="delete-post">Delete</button>
       </div>
     `;
   }
 
   postContainer.innerHTML = postsHTML; // Update the container with the posts' HTML
 
+  // Add event listeners to the delete buttons
+  const deleteButtons = document.querySelectorAll(".delete-post"); // Seleccionar todos los botones
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const postId = event.target.closest(".post").getAttribute("data-id");
+      deletePost(postId); // Llamar a la función de eliminación con el ID del post
+    });
+  });
 }
-
-let botonEliminar = document.getElementById("delete-post");
-botonEliminar.addEventListener("click",()=>{
-  let idPost = document.getElementById("id_post").value.trim();
-  console.log(idPost)
-  console.log(botonEliminar);
-  console.log("delete click");
-  console.log(idPost);
-  deletePost(idPost);
-
-});
-
-let botonModificar = document.getElementById("modify-post");
-botonModificar.addEventListener("click",()=>{
-  let idPost = document.getElementById("id_post").value.trim();
-  console.log(idPost)
-  console.log(botonModificar);
-  console.log("modify click");
-  console.log(idPost);
-  modifyPost(idPost);
-
-});
 
 /**
  * Deletes a post by its ID.
@@ -144,7 +131,6 @@ function addPost() {
 
       // Re-render posts
       renderPosts(cachedPosts);
-      console.log(data);
 
       // Clear form fields
       document.getElementById("id_post").value = "";
@@ -154,53 +140,8 @@ function addPost() {
     .catch((err) => console.error("Error adding post:", err));
 }
 
-
-function modifyPost(postId) {
-  fetch(`${API_URL}/${postId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: postId,
-      title: document.getElementById('title').value.trim(),
-      content: document.getElementById('content').value.trim(),
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Post modified successfully:", data);
-
-    
-      const cachedPosts = JSON.parse(localStorage.getItem("posts")) || [];
-
-      
-      const postIndex = cachedPosts.findIndex(post => post.id === postId);
-
-      if (postIndex !== -1) {
-        cachedPosts[postIndex] = data.post;
-      }
-
-     
-      localStorage.setItem("posts", JSON.stringify(cachedPosts));
-
-      
-      renderPosts(cachedPosts);
-
-      
-      document.getElementById("id_post").value = "";
-      document.getElementById("title").value = "";
-      document.getElementById("content").value = "";
-    })
-    .catch((err) => console.error("Error modifying post:", err));
-}
-
-
-
 // Load posts when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   getPosts();
-  console.log(fetchPostsFromAPI());
   addPostButton.addEventListener("click", addPost);
-
 });
