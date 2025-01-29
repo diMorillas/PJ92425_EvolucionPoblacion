@@ -215,7 +215,7 @@ const imagenFondo = new Image();
 imagenFondo.src = './img/mapa.png';
 
 const paises = [
-  { nombre: "España", center: [700, 200], radio: 10, bandera: './img/españa.png', poblacion: 47, descripcion: "Población de España",  densidad: 93},
+  { nombre: "España", center: [700, 200], radio: 10, bandera: './img/espana.png', poblacion: 47, descripcion: "Población de España",  densidad: 93},
   { nombre: "Francia", center: [720, 170], radio: 10, bandera: "./img/francia.png", poblacion: 67, descripcion: "Población de Francia", densidad: 120}, 
   { nombre: "Italia", center: [755, 185], radio: 10, bandera: "./img/italia.png", poblacion: 60, descripcion: "Población de Italia", densidad: 200},
   { nombre: "Alemania", center: [750, 150], radio: 10, bandera: "./img/alemania.png", poblacion: 83, descripcion: "Población de Alemania", densidad: 230},
@@ -261,20 +261,28 @@ function dibujarBanderas() {
 
 function dibujarBanderas() {
   paises.forEach(pais => {
-    ctx.beginPath();
-    ctx.arc(pais.center[0], pais.center[1], pais.radio, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgba(0, 150, 0, 0.3)";
-    ctx.fill();
-    ctx.stroke();
+    const img = new Image();
+    img.src = pais.bandera;
+    
+    img.onload = function() {
+      ctx.save();
 
-    if (pais.bandera) {
-      const img = new Image();
-      img.src = pais.bandera;
-      img.onload = function() {
-        ctx.drawImage(img, pais.center[0] - 10, pais.center[1] - 10, 20, 15);
-      };
-}});
-}
+      ctx.beginPath();
+      ctx.arc(pais.center[0], pais.center[1], 10, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.clip();
+
+      ctx.drawImage(img, pais.center[0] - 10, pais.center[1] - 10, 20, 20);
+
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      ctx.restore();
+    };
+  });
+};
+
 
 canvas.addEventListener("mousemove", function(event) {
   const mouseX = event.offsetX;

@@ -11,22 +11,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <style>
+        .container-grafica{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
     <nav>
         <div class="nav-container">
-            <img src="../img/logo-nav.png" alt="Logo">
+            <a href="/inicio"><img src="../img/logo-nav.png" alt="Logo"></a>
             <ul class="nav-enlaces">
-                <li><a href="./inicio.html">Gráfico</a></li>
-                <li><a href="./quizz.html">Quizz</a></li>
+                <li><a style="color: blue;" href="./inicio">Gráfico</a></li>
+                <li><a href="./quizz">Quizz</a></li>
                 <li><a href="#">Blog</a></li>
-                <li><a href="./sobrenosotros.html">Sobre Nosotros</a></li>
-                <li><a style="color: blue;" href="./contacto.html">Contacto</a></li>
+                <li><a href="./sobrenosotros">Sobre Nosotros</a></li>
+                <li><a>Contacto</a></li>
             </ul>
             <div class="logout">
-                <a href="./index.html">Log out</a>
+                <a href="/auth/logout">Log out</a>
             </div>
         </div>
     </nav>
-
+    <div class="container-grafica">
+    
     <h1 id="tituloGrafico">Seleccione una gráfica</h1>
 
     <div id="GrafBarras" class="grafico-container" style="display: none;">
@@ -75,6 +83,25 @@
         <button onclick="mostrarGrafico('graficoPastel', 'Gráfico de Pastel')">Gráfico de Pastel</button>
         <button onclick="mostrarGrafico('mapaContainer', 'Mapa del mundo')">Mapa</button>
     </div>
+</div>
+
+<footer class="footer-container">
+    <div class="footer-enlaces">
+        <p>Copyright &copy; Todos los derechos reservados a Populus 2024</p>
+        <div class="footer-enlaces">
+            <a href="/inicio">Inicio</a>
+            <a href="/politica_cookies">Política de Cookies</a>
+            <a href="/terminos.html">Términos y Condiciones</a>
+            <a href="/contacto">Contacto</a>
+            <a href="/sobrenosotros">Sobre Nosotros</a>
+        </div>
+        <div class="footer-info">
+            <p>Teléfono: +34 123 456 789</p>
+            <p>Email: <a href="mailto:populus@worldwide.net">populus@worldwide.net</a></p>
+            <p>Dirección: Calle Ficticia 123, 08001 Barcelona, España</p>
+        </div>
+    </div>
+</footer>
 
     <script src="graficas.js"></script>
 </body>

@@ -67,6 +67,16 @@ botonEliminar.addEventListener("click",()=>{
 
 });
 
+let botonModificar = document.getElementById("modify-post");
+botonModificar.addEventListener("click",()=>{
+  let idPost = document.getElementById("id_post").value.trim();
+  console.log(idPost)
+  console.log(botonModificar);
+  console.log("modify click");
+  console.log(idPost);
+  modifyPost(idPost);
+
+});
 
 /**
  * Deletes a post by its ID.
@@ -145,8 +155,7 @@ function addPost() {
 }
 
 
-function modifyPost() {
-  const postId = document.getElementById('id_post').value.trim();
+function modifyPost(postId) {
   fetch(`${API_URL}/${postId}`, {
     method: "PUT",
     headers: {
@@ -193,5 +202,5 @@ document.addEventListener("DOMContentLoaded", () => {
   getPosts();
   console.log(fetchPostsFromAPI());
   addPostButton.addEventListener("click", addPost);
-  modifyPostButton.addEventListener("click", modifyPost);
+
 });
