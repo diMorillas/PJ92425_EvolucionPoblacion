@@ -9,6 +9,58 @@
 </head>
 
 <body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-grafico{
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .menu-grid {
+            display: grid;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .menu-grid button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #3137fd;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            transition:0.2s ease;
+        
+        }
+        
+        .menu-grid button:hover {
+            background-color: #035096;;
+        }
+        .menu-grid button:focus{
+            color:black
+        }
+        
+        .grafico-container {
+            display: none; /* Oculto por defecto */
+            margin-top: 20px;
+        }
+        
+           
+    </style>
 
     <nav>
         <div class="nav-container">
@@ -26,24 +78,26 @@
         </div>
     </nav>
 
+    <div class="container-grafico">
+        <h1>Evolución de la población mundial 2000 a.C-2010</h1>
+        <div id="GrafBarras" class="grafico-container">
+            <canvas id="canvasBarras" width="400" height="400"></canvas>
+        </div>
+        <div id="graficoProgresion" class="grafico-container">
+            <canvas id="canvasProgresion" width="400" height="400"></canvas>
+        </div>
+        <div id="graficoPastel" class="grafico-container">
+            <canvas id="canvasPastel" width="400" height="400"></canvas>
+        </div>
+        
+        <div class="menu-grid">
+            <button onclick="mostrarGrafico('GrafBarras')">Gráfico de Barras</button>
+            <button onclick="mostrarGrafico('graficoProgresion')">Gráfico de Progresión</button>
+            <button onclick="mostrarGrafico('graficoPastel')">Gráfico de Pastel</button>
+            <button onclick="mostrarGrafico('mapa')">Mapa</button>
+        </div>
+        <script src="graficas.js"></script>
+    </div>
 
-    <h1>Evolución de la población mundial 2000 a.C-2010</h1>
-    <div id="GrafBarras" class="grafico-container">
-        <canvas id="canvasBarras" width="400" height="400"></canvas>
-    </div>
-    <div id="graficoProgresion" class="grafico-container">
-        <canvas id="canvasProgresion" width="400" height="400"></canvas>
-    </div>
-    <div id="graficoPastel" class="grafico-container">
-        <canvas id="canvasPastel" width="400" height="400"></canvas>
-    </div>
-    
-    <div class="menu-grid">
-        <button onclick="mostrarGrafico('GrafBarras')">Gráfico de Barras</button>
-        <button onclick="mostrarGrafico('graficoProgresion')">Gráfico de Progresión</button>
-        <button onclick="mostrarGrafico('graficoPastel')">Gráfico de Pastel</button>
-        <button onclick="mostrarGrafico('mapa')">Mapa</button>
-    </div>
-    <script src="graficas.js"></script>
 </body>
 </html>
