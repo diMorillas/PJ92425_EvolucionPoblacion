@@ -261,20 +261,28 @@ function dibujarBanderas() {
 
 function dibujarBanderas() {
   paises.forEach(pais => {
-    ctx.beginPath();
-    ctx.arc(pais.center[0], pais.center[1], pais.radio, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgba(0, 150, 0, 0.3)";
-    ctx.fill();
-    ctx.stroke();
+    const img = new Image();
+    img.src = pais.bandera;
+    
+    img.onload = function() {
+      ctx.save();
 
-    if (pais.bandera) {
-      const img = new Image();
-      img.src = pais.bandera;
-      img.onload = function() {
-        ctx.drawImage(img, pais.center[0] - 10, pais.center[1] - 10, 20, 15);
-      };
-}});
-}
+      ctx.beginPath();
+      ctx.arc(pais.center[0], pais.center[1], 10, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.clip();
+
+      ctx.drawImage(img, pais.center[0] - 10, pais.center[1] - 10, 20, 20);
+
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      ctx.restore();
+    };
+  });
+};
+
 
 canvas.addEventListener("mousemove", function(event) {
   const mouseX = event.offsetX;
