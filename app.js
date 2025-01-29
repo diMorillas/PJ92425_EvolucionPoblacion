@@ -199,19 +199,22 @@ function iniciar() {
       }
       return;
     }else if(pathname.startsWith("/api/posts") && request.method == "PUT"){
-      const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
+      const postIndex = posts.findIndex((p) => p.id === id); 
+      
       if (postIndex !== -1) {
-        posts.postIndex.id = request.body.id;
-        posts.postIndex.title = request.body.title;
-        posts.postIndex.content = request.body.content;
+        // Correctly update the post at the found index
+        posts[postIndex].id = request.body.id;
+        posts[postIndex].title = request.body.title;
+        posts[postIndex].content = request.body.content;
+        
         response.writeHead(200, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post eliminado con éxito" }));
+        response.end(JSON.stringify({ message: "Post actualizado con éxito" }));
       } else {
         response.writeHead(404, { "Content-Type": "application/json" });
         response.end(JSON.stringify({ message: "Post no encontrado" }));
       }
-      return;      
-
+      return;
+    
     } else {
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 NOT FOUND");
