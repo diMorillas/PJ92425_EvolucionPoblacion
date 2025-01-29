@@ -43,7 +43,6 @@ let posts = [
   {id:1,title:"test1",content:"content"}
 ];
 
-// Función para comprobar si el usuario está autenticado
 const checkAuthentication = (request) => {
   const cookies = cookie.parse(request.headers.cookie || "");
   return cookies.session_id;
@@ -57,7 +56,6 @@ function iniciar() {
 
     console.log(`Petición para ${pathname} recibida.`);
 
-    // Tipos MIME
     const mimeTypes = {
       ".html": "text/html",
       ".css": "text/css",
@@ -69,7 +67,6 @@ function iniciar() {
       ".txt": "text/plain",
     };
 
-    // Función para servir archivos estáticos
     const serveFile = (filePath, contentType) => {
       fs.readFile(filePath, (err, data) => {
         if (err) {
@@ -82,22 +79,36 @@ function iniciar() {
       });
     };
 
-    // Middleware: Verificar si el usuario está autenticado
-    if (checkAuthentication(request)) {
+    const username = checkAuthentication(request);
+    if (username) {
       if (pathname === "/") {
         response.writeHead(302, { Location: "/inicio" });
         return response.end();
       }
-    } else if (!checkAuthentication(request) && pathname !== "/" && pathname !== "/auth/login") {
+    } else if (!username && pathname !== "/" && pathname !== "/auth/login") {
       response.writeHead(302, { Location: "/" });
       return response.end();
     }
 
-    // Manejo de rutas
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
     } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog"].includes(pathname)) {
+      
+      // Bloqueo de acceso a /blogAdmin para usuario "user"
+      if (pathname === "/blogAdmin") {
+        if (username && username.toLowerCase() === "user") {
+          response.writeHead(403, { "Content-Type": "text/html" });
+          return response.end(`
+            <script>
+              alert("Acceso denegado: No tienes permisos de administrador");
+              window.location.href = "/inicio";
+            </script>
+          `);
+        }
+      }
+      
       serveFile(`./public${pathname}.html`, "text/html");
+      
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
     } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js" || pathname === "/userBlog.js" || pathname === "/graficas.js") {
@@ -139,8 +150,13 @@ function iniciar() {
             `);
           }
 
-          // Crear una "sesión" utilizando cookies
-          response.setHeader("Set-Cookie", cookie.serialize("session_id", "user_logged_in", { path: "/" }));
+          response.setHeader(
+            "Set-Cookie",
+            cookie.serialize("session_id", user.username, {
+              path: "/",
+              httpOnly: true
+            })
+          );
           
           response.writeHead(302, { Location: "/inicio" });
           response.end();
@@ -150,7 +166,6 @@ function iniciar() {
         }
       });
     } else if (pathname === "/auth/logout" && request.method === "GET") {
-      // Borrar la cookie de sesión
       response.setHeader(
         "Set-Cookie",
         cookie.serialize("session_id", "", {
@@ -199,25 +214,27 @@ function iniciar() {
         response.writeHead(404, { "Content-Type": "application/json" });
         response.end(JSON.stringify({ message: "Post no encontrado" }));
       }
-      return;
-    }else if(pathname.startsWith("/api/posts") && request.method == "PUT"){
+    } else if (pathname.startsWith("/api/posts") && request.method === "PUT") {
       const id = parseInt(pathname.split("/")[3], 10);
-      const postIndex = posts.findIndex((p) => p.id === id); 
+      const postIndex = posts.findIndex((p) => p.id === id);
       
-      if (postIndex !== -1) {
-        // Correctly update the post at the found index
-        posts[postIndex].id = request.body.id;
-        posts[postIndex].title = request.body.title;
-        posts[postIndex].content = request.body.content;
+      let body = "";
+      request.on("data", (chunk) => {
+        body += chunk.toString();
+      });
+      
+      request.on("end", () => {
+        const updatedPost = JSON.parse(body);
         
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post actualizado con éxito" }));
-      } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post no encontrado" }));
-      }
-      return;
-    
+        if (postIndex !== -1) {
+          posts[postIndex] = { ...posts[postIndex], ...updatedPost };
+          response.writeHead(200, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ message: "Post actualizado con éxito" }));
+        } else {
+          response.writeHead(404, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ message: "Post no encontrado" }));
+        }
+      });
     } else {
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 NOT FOUND");
