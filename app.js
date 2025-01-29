@@ -187,10 +187,11 @@ function iniciar() {
         response.end(JSON.stringify({ message: "Post no encontrado" }));
       }
     } else if (pathname.startsWith("/api/posts/") && request.method === "DELETE") {
+      const id = parseInt(pathname.split("/")[3], 10);
       const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
 
       if (postIndex !== -1) {
-        posts.splice(postIndex, 1); // Eliminar el post del array
+        posts.splice(postIndex, 1); 
         response.writeHead(200, { "Content-Type": "application/json" });
         response.end(JSON.stringify({ message: "Post eliminado con éxito" }));
       } else {
@@ -199,6 +200,7 @@ function iniciar() {
       }
       return;
     }else if(pathname.startsWith("/api/posts") && request.method == "PUT"){
+      const id = parseInt(pathname.split("/")[3], 10);
       const postIndex = posts.findIndex((p) => p.id === id); 
       
       if (postIndex !== -1) {
