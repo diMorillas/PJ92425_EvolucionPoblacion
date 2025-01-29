@@ -40,6 +40,7 @@ createDefaultAdmin();
 
 // Posts simulados
 let posts = [
+  {id:"1",title:"hola",content:"hola2"}
 ];
 
 // Función para comprobar si el usuario está autenticado
@@ -187,8 +188,10 @@ function iniciar() {
         response.end(JSON.stringify({ message: "Post no encontrado" }));
       }
     } else if (pathname.startsWith("/api/posts/") && request.method === "DELETE") {
-      const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
 
+      const id = pathname.split("/")[3];
+      console.log(typeof(id));
+      const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
       if (postIndex !== -1) {
         posts.splice(postIndex, 1); // Eliminar el post del array
         response.writeHead(200, { "Content-Type": "application/json" });

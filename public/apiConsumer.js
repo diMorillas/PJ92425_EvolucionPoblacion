@@ -7,7 +7,9 @@ const addPostButton = document.getElementById("add-post");
 export function getPosts() {
   const cachedPosts = localStorage.getItem("posts"); // Guardadas en "cache"
   if (cachedPosts) {
+    //fetchPostsFromAPI();
     console.log("Loaded posts from localStorage.");
+    console.log(cachedPosts);
     renderPosts(JSON.parse(cachedPosts));
   } else {
     fetchPostsFromAPI();
@@ -48,21 +50,12 @@ export function renderPosts(posts) {
         <p>${posts[i].id}</p>
         <h3>${posts[i].title}</h3>
         <p>${posts[i].content}</p>
-        <button class="delete-post">Delete</button>
       </div>
     `;
   }
 
   postContainer.innerHTML = postsHTML; // Update the container with the posts' HTML
 
-  // Add event listeners to the delete buttons
-  const deleteButtons = document.querySelectorAll(".delete-post"); // Seleccionar todos los botones
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      const postId = event.target.closest(".post").getAttribute("data-id");
-      deletePost(postId); // Llamar a la función de eliminación con el ID del post
-    });
-  });
 }
 
 /**
@@ -89,12 +82,55 @@ function deletePost(postId) {
       const updatedPosts = cachedPosts.filter((post) => post.id !== postId); // Comparar como string
 
       localStorage.setItem("posts", JSON.stringify(updatedPosts));
-
+      function deletePost(postId) {
+        // Enviar la solicitud DELETE al servidor
+        fetch(`${API_URL}/${postId}`, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            if (!response.ok) {
+              console.log(`Error al intentar eliminar el post con ID: ${postId}`);
+              throw new Error("Error deleting post");
+            }
+            return response.json(); // Procesar la respuesta JSON
+          })
+          .then((data) => {
+            console.log(data.message);
+      
+            // Actualizar localStorage después de la eliminación
+            const cachedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+      
+            // Asegurarse de que ambos ID sean números antes de compararlos
+            const updatedPosts = cachedPosts.filter((post) => post.id !== parseInt(postId, 10));
+      
+            // Guardar los posts actualizados en localStorage
+            localStorage.setItem("posts", JSON.stringify(updatedPosts));
+      
+            // Re-renderizar los posts en la interfaz
+            renderPosts(updatedPosts);
+          })
+          .catch((err) => {
+            console.error("Error deleting post:", err);
+          });
+      }
+      
       // Re-renderizar los posts en la interfaz
       renderPosts(updatedPosts);
     })
     .catch((err) => console.error("Error deleting post:", err));
 }
+
+
+let botonEliminar = document.getElementById("delete-post");
+botonEliminar.addEventListener("click",()=>{
+  let idPost = document.getElementById("id_post").value.trim();
+  console.log(idPost)
+  console.log(botonEliminar);
+  console.log("delete click");
+  console.log(idPost);
+  deletePost(idPost);
+
+});
 
 /**
  * Adds a new post.
@@ -142,6 +178,8 @@ function addPost() {
 
 // Load posts when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
+  //localStorage.clear();
   getPosts();
   addPostButton.addEventListener("click", addPost);
+
 });
