@@ -10,6 +10,20 @@ function mostrarGrafico(id) {
         }
     });
 }
+function toggleTexto(id) {
+    const texto = document.getElementById(id);
+    const container = document.querySelector('.grafico-texto-contenedor');
+
+    if (texto.style.display === 'none' || texto.style.display === '') {
+        texto.style.display = 'block';
+        container.style.display = 'flex'; // Asegura que se muestren en línea
+    } else {
+        texto.style.display = 'none';
+        container.style.display = 'block'; // Vuelve a mostrar solo el gráfico
+    }
+}
+
+
 
 //Grafico de Barras--Evolución de la población mundial
 const canvasBarras = document.getElementById('canvasBarras');
@@ -57,13 +71,12 @@ const canvasBarras = document.getElementById('canvasBarras');
    
 
 //Grafico de progresión--Proyeccion de poblacion 2024-2080
-//CODIGO DE EJEMPLO NO DEFINITIVO SOLO DE EJEMPLO
 const canvasProgresion = document.getElementById('canvasProgresion').getContext('2d');
 
 // Limpiar el canvas y definir el tamaño
 canvasProgresion.clearRect(0, 0, canvasProgresion.canvas.width, canvasProgresion.canvas.height);
 canvasProgresion.canvas.width = 500; // Ancho del gráfico
-canvasProgresion.canvas.height = 300; // Alto del gráfico
+canvasProgresion.canvas.height = 400; // Alto del gráfico
 
 // Establecer los datos
 const data = [
@@ -77,7 +90,7 @@ const data = [
 const xStart = 50; // Punto inicial en X
 const yStart = 250; // Punto base en Y
 const xGap = 100; // Espacio entre puntos en X
-const yScale = 0.02; // Escala de población (para ajustar la altura del gráfico)
+const yScale = 0.081; // Escala de población (para ajustar la altura del gráfico)
 
 // Dibujar el eje X y el eje Y
 canvasProgresion.beginPath();
@@ -127,9 +140,68 @@ data.forEach((point, index) => {
 })
 
 
+//Grafico de pastel (los 10 paises mas poblados del mundo)
+// Datos para el gráfico de pastel
+const datosPastel = [
+    { pais: "India", porcentaje: 18.29 },
+    { pais: "China", porcentaje: 17.87 },
+    { pais: "EEUU", porcentaje: 4.27 },
+    { pais: "Indonesia", porcentaje: 3.57 },
+    { pais: "Pakistán", porcentaje: 2.99 },
+    { pais: "Nigeria", porcentaje: 2.89 },
+    { pais: "Brasil", porcentaje: 2.7 },
+    { pais: "Bangladesh", porcentaje: 2.19 },
+    { pais: "Rusia", porcentaje: 1.85 },
+    { pais: "México", porcentaje: 1.68 },
+];
 
+// Colores para las secciones del gráfico
+const coloresPastel = [
+    "#FF5733", "#33FF57", "#5733FF", "#FFC300", 
+    "#33FFF0", "#FF33E0", "#8E44AD", "#3498DB", 
+    "#F1C40F", "#E67E22"
+];
 
+// Configuración del canvas
+const canvasPastel = document.getElementById("canvasPastel");
+const ctxPastel = canvasPastel.getContext("2d");
+const centroX = canvasPastel.width / 2;
+const centroY = canvasPastel.height / 2;
+const radio = 150;
 
+// Calcular el total original y el factor de escala
+const totalOriginal = datosPastel.reduce((sum, dato) => sum + dato.porcentaje, 0);
+const factorEscala = 100 / totalOriginal;
 
+// Ajustar los porcentajes para que sumen 100%
+const datosEscalados = datosPastel.map(dato => ({
+    ...dato,
+    porcentaje: dato.porcentaje * factorEscala,
+}));
 
+// Dibujar cada segmento del gráfico
+let anguloInicio = 0;
+datosEscalados.forEach((dato, index) => {
+    const anguloFin = anguloInicio + (dato.porcentaje / 100) * 2 * Math.PI;
 
+    // Dibujar el segmento
+    ctxPastel.beginPath();
+    ctxPastel.moveTo(centroX, centroY);
+    ctxPastel.arc(centroX, centroY, radio, anguloInicio, anguloFin);
+    ctxPastel.closePath();
+    ctxPastel.fillStyle = coloresPastel[index];
+    ctxPastel.fill();
+
+    // Calcular la posición de la etiqueta
+    const anguloMedio = (anguloInicio + anguloFin) / 2;
+    const etiquetaX = centroX + (radio + 20) * Math.cos(anguloMedio);
+    const etiquetaY = centroY + (radio + 20) * Math.sin(anguloMedio);
+
+    // Dibujar la etiqueta
+    ctxPastel.fillStyle = "#000";
+    ctxPastel.font = "14px Arial";
+    ctxPastel.textAlign = "center";
+    ctxPastel.fillText(dato.pais, etiquetaX, etiquetaY);
+
+    anguloInicio = anguloFin;
+});
