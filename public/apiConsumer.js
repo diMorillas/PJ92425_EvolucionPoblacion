@@ -2,7 +2,7 @@
 const API_URL = "/api/posts"; // Your API endpoint
 const postContainer = document.getElementById("post-container");
 const addPostButton = document.getElementById("add-post");
-
+const modifyPostButton = document.getElementById("modify-post");
 // Fetch posts from API or localStorage
 export function getPosts() {
   const cachedPosts = localStorage.getItem("posts"); // Guardadas en "cache"
@@ -145,20 +145,51 @@ function addPost() {
 }
 
 
-function modifyPost(postId){
+function modifyPost(postId) {
   fetch(API_URL, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({id:postId})
+    body: JSON.stringify({
+      id: postId,
+      title: document.getElementById('title').value.trim(),
+      content: document.getElementById('content').value.trim(),
+    }),
   })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Post modified successfully:", data);
 
+    
+      const cachedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+
+      
+      const postIndex = cachedPosts.findIndex(post => post.id === postId);
+
+      if (postIndex !== -1) {
+        cachedPosts[postIndex] = data.post;
+      }
+
+     
+      localStorage.setItem("posts", JSON.stringify(cachedPosts));
+
+      
+      renderPosts(cachedPosts);
+
+      
+      document.getElementById("id_post").value = "";
+      document.getElementById("title").value = "";
+      document.getElementById("content").value = "";
+    })
+    .catch((err) => console.error("Error modifying post:", err));
 }
+
 
 
 // Load posts when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   getPosts();
   addPostButton.addEventListener("click", addPost);
+  modifyPostButton.addEventListener("click", modifyPost);
 });
