@@ -91,7 +91,7 @@ function iniciar() {
       serveFile("./public/index.html", "text/html");
     } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog"].includes(pathname)) {
       
-      // Bloqueo de acceso a /blogAdmin para usuario "user"
+      // Bloqueo de acceso a /blogAdmin para usuario "user" (no hay roles de usuario)
       if (pathname === "/blogAdmin") {
         if (username && username.toLowerCase() === "user") {
           response.writeHead(403, { "Content-Type": "text/html" });
