@@ -134,6 +134,7 @@ function addPost() {
 
       // Re-render posts
       renderPosts(cachedPosts);
+      console.log(data);
 
       // Clear form fields
       document.getElementById("id_post").value = "";
@@ -144,7 +145,8 @@ function addPost() {
 }
 
 
-function modifyPost(postId) {
+function modifyPost() {
+  const postId = document.getElementById('id_post').value.trim();
   fetch(`${API_URL}/${postId}`, {
     method: "PUT",
     headers: {

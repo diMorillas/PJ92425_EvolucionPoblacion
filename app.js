@@ -38,7 +38,10 @@ async function createDefaultUser() {
 createDefaultUser();
 createDefaultAdmin();
 
-let posts = [];
+// Posts simulados
+let posts = [
+  {id:1,title:"test1",content:"content"}
+];
 
 const checkAuthentication = (request) => {
   const cookies = cookie.parse(request.headers.cookie || "");
@@ -184,9 +187,9 @@ function iniciar() {
       request.on("end", () => {
         const newPost = JSON.parse(body);
         posts.push(newPost);
-
+        console.log(posts);
         response.writeHead(201, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post creado con éxito", post: newPost }));
+        response.end(JSON.stringify({ message: "Post creado con éxito", post:posts }));
       });
     } else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
       const id = parseInt(pathname.split("/")[3], 10);
