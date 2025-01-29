@@ -10,6 +10,12 @@ body{
     font-family: "Poppins", sans-serif;
 }
 
+.center{
+    text-align: center;
+    margin-top: 5%;
+}
+
+
 nav {
     background-color: #f4f4f4;
     padding: 10px 20px;
@@ -296,6 +302,55 @@ nav img {
     height: auto;
     border-radius: 10px;
 }
+
+
+/* Barra lateral */
+.main-container {
+    display: flex;
+    padding: 20px;
+  }
+  
+  .sidebar {
+    width: 25%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-right: 2px solid #ddd;
+  }
+  
+  .sidebar h2 {
+    text-align: center;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .sidebar ul li:hover {
+    background-color: #0073e6;
+    color: white;
+  }
+
+
+  /* Contenedor central */
+.content {
+    width: 75%;
+    padding: 20px;
+  }
+  
+  #post-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  #post-body {
+    font-size: 18px;
+  }
 
 /*Página gráficos*/
 
