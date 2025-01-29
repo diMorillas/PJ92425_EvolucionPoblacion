@@ -414,3 +414,6 @@ h1 {
     border-radius: 5px;
     display: none;
   }
+
+  button{
+    font-family: "Poppins", sans-serif;  }
