@@ -213,7 +213,6 @@ function iniciar() {
       }
     } else if (pathname.startsWith("/api/posts") && request.method === "PUT") {
       const id = parseInt(pathname.split("/")[3], 10);
-      const id = parseInt(pathname.split("/")[3], 10);
       const postIndex = posts.findIndex((p) => p.id === id);
       
       let body = "";
