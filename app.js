@@ -181,17 +181,36 @@ function iniciar() {
       response.end(JSON.stringify(posts));
     } else if (pathname === "/api/posts" && request.method === "POST") {
       let body = "";
-      request.on("data", (chunk) => {
-        body += chunk.toString();
+      request.on('data', (chunk) => {
+        body += chunk;
       });
-      request.on("end", () => {
-        const newPost = JSON.parse(body);
-        posts.push(newPost);
-        console.log(posts);
-        response.writeHead(201, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post creado con éxito", post:posts }));
-      });
-    } else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
+      request.on('end', () => {
+        try {
+          // Convertir el cuerpo de la solicitud en un objeto JavaScript (suponiendo que es JSON)
+          const data = JSON.parse(body);
+  
+          // Acceder a la información del cuerpo
+          const id = parseInt(data.id);
+          const title = data.title;
+          const content = data.content;
+  
+          // Validación básica de los datos
+          if (!id || !title || !content) {
+            console.log(posts);
+            response.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ message: 'Missing id, title, or content' }));
+          }
+  
+          // Procesar los datos (agregar al arreglo, guardar, etc.)
+          response.writeHead(201, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify({ message: 'Post added successfully', post: { id, title, content } }));
+  
+        } catch (error) {
+          // Si hubo un error al parsear el JSON
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ message: 'Invalid JSON format' }));
+        }
+      });    } else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
       const id = parseInt(pathname.split("/")[3], 10);
       const post = posts.find((p) => p.id === id);
 
