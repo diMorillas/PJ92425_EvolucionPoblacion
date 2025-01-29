@@ -48,7 +48,6 @@ export function renderPosts(posts) {
         <p>${posts[i].id}</p>
         <h3>${posts[i].title}</h3>
         <p>${posts[i].content}</p>
-        <button class="delete-post">Delete</button>
       </div>
     `;
   }
@@ -146,7 +145,7 @@ function addPost() {
 
 
 function modifyPost(postId) {
-  fetch(API_URL, {
+  fetch(`${API_URL}/${postId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -190,6 +189,7 @@ function modifyPost(postId) {
 // Load posts when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   getPosts();
+  console.log(fetchPostsFromAPI());
   addPostButton.addEventListener("click", addPost);
   modifyPostButton.addEventListener("click", modifyPost);
 });
