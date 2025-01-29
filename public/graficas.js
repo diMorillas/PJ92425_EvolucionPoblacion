@@ -215,7 +215,7 @@ const imagenFondo = new Image();
 imagenFondo.src = './img/mapa.png';
 
 const paises = [
-  { nombre: "España", center: [700, 200], radio: 10, bandera: './img/españa.png', poblacion: 47, descripcion: "Población de España",  densidad: 93},
+  { nombre: "España", center: [700, 200], radio: 10, bandera: './img/espana.png', poblacion: 47, descripcion: "Población de España",  densidad: 93},
   { nombre: "Francia", center: [720, 170], radio: 10, bandera: "./img/francia.png", poblacion: 67, descripcion: "Población de Francia", densidad: 120}, 
   { nombre: "Italia", center: [755, 185], radio: 10, bandera: "./img/italia.png", poblacion: 60, descripcion: "Población de Italia", densidad: 200},
   { nombre: "Alemania", center: [750, 150], radio: 10, bandera: "./img/alemania.png", poblacion: 83, descripcion: "Población de Alemania", densidad: 230},
