@@ -1,103 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráficos</title>
-    <link rel="stylesheet" href="style.css"></link>
-    <link rel="stylesheet" href="styles.css"></link>
+    <title>Populus</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-
 <body>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container-grafico{
-            font-family: Arial, sans-serif;
+        .container-grafica{
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0;
-            padding: 0;
         }
-        
-        h1 {
-            text-align: center;
-        }
-        
-        .menu-grid {
-            display: grid;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .menu-grid button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #3137fd;
-            color: white;
-            border: none;
-            border-radius: 14px;
-            transition:0.2s ease;
-        
-        }
-        
-        .menu-grid button:hover {
-            background-color: #035096;;
-        }
-        .menu-grid button:focus{
-            color:black
-        }
-        
-        .grafico-container {
-            display: none; /* Oculto por defecto */
-            margin-top: 20px;
-        }
-        
-           
     </style>
-
     <nav>
         <div class="nav-container">
             <img src="../img/logo-nav.png" alt="Logo">
             <ul class="nav-enlaces">
-                <li><a style="color: blue;">Gráfico</a></li>
-                <li><a href="/quizz">Quizz</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/about">Sobre Nosotros</a></li>
-                <li><a href="/contacto">Contacto</a></li>
+                <li><a href="./inicio.html">Gráfico</a></li>
+                <li><a href="./quizz.html">Quizz</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="./sobrenosotros.html">Sobre Nosotros</a></li>
+                <li><a style="color: blue;" href="./contacto.html">Contacto</a></li>
             </ul>
             <div class="logout">
-                <a href="/auth/logout">Log out</a>
-              </div>
+                <a href="./index.html">Log out</a>
+            </div>
         </div>
     </nav>
+    <div class="container-grafica">
+    
+    <h1 id="tituloGrafico">Seleccione una gráfica</h1>
 
-    <div class="container-grafico">
-        <h1>Evolución de la población mundial 2000 a.C-2010</h1>
-        <div id="GrafBarras" class="grafico-container">
-            <canvas id="canvasBarras" width="400" height="400"></canvas>
+    <div id="GrafBarras" class="grafico-container" style="display: none;">
+        <canvas id="canvasBarras" width="400" height="400"></canvas>
+        <button class="saberMas" onclick="toggleTexto('textoBarras')">Saber más</button>
+        <div id="textoBarras" class="texto-desplegable" style="display: none;">
+            <p>2000 a.C: Época del Imperio Egipcio<br>100 a.C: Plenitud y apogeo del Imperio Romano<br>711: Invasión Árabe de la Península<br>1492: Conquista de América<br>1789: Revolución Industrial<br>1850:</p>
         </div>
-        <div id="graficoProgresion" class="grafico-container">
-            <canvas id="canvasProgresion" width="400" height="400"></canvas>
-        </div>
-        <div id="graficoPastel" class="grafico-container">
-            <canvas id="canvasPastel" width="400" height="400"></canvas>
-        </div>
-        
-        <div class="menu-grid">
-            <button onclick="mostrarGrafico('GrafBarras')">Gráfico de Barras</button>
-            <button onclick="mostrarGrafico('graficoProgresion')">Gráfico de Progresión</button>
-            <button onclick="mostrarGrafico('graficoPastel')">Gráfico de Pastel</button>
-            <button onclick="mostrarGrafico('mapa')">Mapa</button>
-        </div>
-        <script src="graficas.js"></script>
     </div>
 
+    <div id="graficoProgresion" class="grafico-container" style="display: none;">
+        <canvas id="canvasProgresion" width="400" height="400"></canvas>
+        <button class="saberMas" onclick="toggleTexto('textoProgresion')">Saber más</button>
+        <div id="textoProgresion" class="texto-desplegable" style="display: none;">
+            <b><p>Predicción de la evolución de la población mundial</p></b>
+            <p>En los próximos 56 años la población seguirá creciendo pero a un nivel más lento que al de los últimos años</p>
+        </div>
+    </div>
+
+    <div id="graficoPastel" class="grafico-container" style="display: none;">
+        <canvas id="canvasPastel" width="400" height="400"></canvas>
+        <button class="saberMas" onclick="toggleTexto('textoPastel')">Saber más</button>
+        <div id="textoPastel" class="texto-desplegable" style="display: none;">
+            <p>Los 10 países más poblados del mundo:</p>
+            <b>1. India: 1442 millones de habitantes</b><br>
+            <b>2. China: 1409 millones de habitantes</b><br>
+            <b>3. EEUU: 337 millones de habitantes</b><br>
+            <b>4. Indonesia: 282 millones de habitantes</b><br>
+            <b>5. Pakistán: 236 millones de habitantes</b><br>
+            <b>6. Nigeria: 228 millones de habitantes</b><br>
+            <b>7. Brasil: 213 millones de habitantes</b><br>
+            <b>8. Bangladesh: 172 millones de habitantes</b><br>
+            <b>9. Rusia: 146 millones de habitantes</b><br>
+            <b>10. México: 132 millones de habitantes</b><br>
+        </div>
+    </div>
+    <div id="mapaContainer" class="grafico-container" >
+        <canvas id="canvas" width="1500" height="800"></canvas>
+        <div id="mapa" class="mapa"></div>
+    </div>
+    
+
+    <div class="menu-grid">
+        <button onclick="mostrarGrafico('GrafBarras', 'Gráfico de Barras')">Gráfico de Barras</button>
+        <button onclick="mostrarGrafico('graficoProgresion', 'Gráfico de Progresión')">Gráfico de Progresión</button>
+        <button onclick="mostrarGrafico('graficoPastel', 'Gráfico de Pastel')">Gráfico de Pastel</button>
+        <button onclick="mostrarGrafico('mapaContainer', 'Mapa del mundo')">Mapa</button>
+    </div>
+</div>
+
+<footer class="footer-container">
+    <div class="footer-enlaces">
+        <p>Copyright &copy; Todos los derechos reservados a Populus 2024</p>
+        <div class="footer-enlaces">
+            <a href="/inicio">Inicio</a>
+            <a href="/politica_cookies">Política de Cookies</a>
+            <a href="/terminos.html">Términos y Condiciones</a>
+            <a href="/contacto">Contacto</a>
+            <a href="/sobrenosotros">Sobre Nosotros</a>
+        </div>
+        <div class="footer-info">
+            <p>Teléfono: +34 123 456 789</p>
+            <p>Email: <a href="mailto:populus@worldwide.net">populus@worldwide.net</a></p>
+            <p>Dirección: Calle Ficticia 123, 08001 Barcelona, España</p>
+        </div>
+    </div>
+</footer>
+
+    <script src="graficas.js"></script>
 </body>
 </html>

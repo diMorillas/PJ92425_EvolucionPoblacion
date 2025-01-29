@@ -1,5 +1,4 @@
 body {
-    font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,8 +36,17 @@ h1 {
 }
 
 .grafico-container {
-    display: none; /* Oculto por defecto */
+    display: none; 
     margin-top: 20px;
 }
 
-   
+.texto-desplegable button{
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3137fd;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    transition:0.2s ease;
+}
