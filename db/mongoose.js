@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Conectar con MongoDB
-mongoose.connect('mongodb://localhost:27017/Users', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/Users')
   .then(() => console.log('MongoDB conectado con éxito'))
   .catch(err => console.error('Error al conectar con MongoDB:', err));
 
