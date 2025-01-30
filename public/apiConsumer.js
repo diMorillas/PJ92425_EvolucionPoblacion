@@ -3,25 +3,27 @@ const STORAGE_KEY = "postsData"; // lo guardamos asi en LS
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  if(loadFromLocalStorage()){
+  if(loadFromLocalStorage("admin")){
     console.log("posts cargados desde LS");
   }else{
-    fetchPosts();
+    fetchPosts("admin");
   }
-
-
   document.getElementById("add-post").addEventListener("click", createPost);
   document.getElementById("modify-post").addEventListener("click", updatePost);
   document.getElementById("delete-post").addEventListener("click", deletePost);
 });
 
 // Obtener y renderizar posts desde la API
-export function fetchPosts() {
+export function fetchPosts(page) {
   fetch(API_URL)
     .then((response) => response.json())
     .then((data) => {
-      saveToLocalStorage(data); // Guardar en localStorage
-      renderPosts(data);
+      saveToLocalStorage(data);
+      if(page == "admin"){
+        renderPosts(data,"admin");  
+      }else{
+        renderPosts(data,"user");
+      }
     })
     .catch((err) => {
       console.error("Error obteniendo posts:", err);
@@ -37,13 +39,24 @@ export function fetchPosts() {
   posts.forEach((post) => {
     const postElement = document.createElement("div");
     postElement.classList.add("post");
-    postElement.innerHTML = `
+    if(page == "admin"){
+      postElement.innerHTML = `
       <div class = "posts">
       <h4>${post.id}</h4>
       <h2>${post.title}</h2>
       <p>${post.content}</p>
       </div>
     `;
+
+    }else{
+      postElement.innerHTML = `
+      <div class = "posts">
+      <h2>${post.title}</h2>
+      </div>
+    `;
+
+    }
+
     container.appendChild(postElement);
   });
 }
@@ -69,7 +82,7 @@ function createPost() {
     .then((response) => response.json())
     .then(() => {
       updateLocalStorage(newPost, "add"); // Actualizar en localStorage
-      fetchPosts();
+      fetchPosts("admin");
       clearFields();
     })
     .catch((err) => console.error("Error creando post:", err));
@@ -115,7 +128,7 @@ function deletePost() {
     .then((response) => response.json())
     .then(() => {
       updateLocalStorage({ id }, "delete"); // Eliminar en localStorage
-      fetchPosts();
+      fetchPosts("admin");
       clearFields();
     })
     .catch((err) => console.error("Error eliminando post:", err));
@@ -127,10 +140,15 @@ export function saveToLocalStorage(posts) {
 }
 
 // Cargar desde localStorage
-export function loadFromLocalStorage() {
+export function loadFromLocalStorage(page) {
   const savedPosts = localStorage.getItem(STORAGE_KEY);
   if (savedPosts) {
-    renderPosts(JSON.parse(savedPosts));
+    if(page == "admin"){
+      renderPosts(JSON.parse(savedPosts),page);
+
+    }else{
+      renderPosts(JSON.parse(savedPosts),page);
+    }
     return true;
   }
   return false;

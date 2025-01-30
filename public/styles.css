@@ -418,6 +418,12 @@ h1 {
 
   .posts{
     display: flex;
-    border: 1px solid black;
-    border-radius: 9px;
+    border: 1px solid;
+    font-weight: 200;
+    border-radius: 5px;
+    padding: 10px;
+    width: 90%;
+    color: white;
+    background-color: #39d47f;
+    gap: 10px;
   }
