@@ -52,6 +52,7 @@ export function fetchPosts(page) {
       postElement.innerHTML = `
       <div class = "posts">
       <h2>${post.title}</h2>
+      <p>${post.content}</p>
       </div>
     `;
 
