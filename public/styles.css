@@ -414,3 +414,10 @@ h1 {
     border-radius: 5px;
     display: none;
   }
+
+
+  .posts{
+    display: flex;
+    border: 1px solid black;
+    border-radius: 9px;
+  }

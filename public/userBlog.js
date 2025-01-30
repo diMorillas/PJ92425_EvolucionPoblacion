@@ -1,58 +1,40 @@
-import {fetchPostsFromAPI } from "./apiConsumer.js";
-const API_URL = "/api/posts"; // Your API endpoint
-const sidebarPosts = document.getElementById("sidebar-posts");
-const postTitle = document.getElementById("post-title");
-const postBody = document.getElementById("post-body");
+// Importamos funciones reutilizables del apiConsumer.js
+import { fetchPosts, loadFromLocalStorage, saveToLocalStorage } from "./apiConsumer.js";
 
-// Función para obtener los posts desde la API o localStorage
-export function getPostsSidebar() {
-  const cachedPosts = localStorage.getItem("posts");
-
-  if (cachedPosts) {
-    console.log("Loaded posts from localStorage.");
-    renderSidebarPosts(JSON.parse(cachedPosts)); // Renderiza los títulos en la barra lateral
-  } else {
-    fetchPostsFromAPI();
-  }
-}
-
-// Renderiza los títulos de los posts en la barra lateral
-export function renderSidebarPosts(posts) {
-  if (!posts.length) {
-    sidebarPosts.innerHTML = "<p>No posts yet. Add a new post!</p>";
-    return;
-  }
-
-  let postsHTML = "";
-  posts.forEach((post) => {
-    postsHTML += `<li data-id="${post.id}">${post.title}</li>`;
-  });
-
-  sidebarPosts.innerHTML = postsHTML;
-
-  // Agregar evento de clic a cada título de post
-  const postItems = document.querySelectorAll(".sidebar ul li");
-  postItems.forEach((item) => {
-    item.addEventListener("click", (event) => {
-      const postId = event.target.getAttribute("data-id");
-      displayPostContent(postId);
-    });
-  });
-}
-
-// Muestra el contenido del post seleccionado
-function displayPostContent(postId) {
-  const posts = JSON.parse(localStorage.getItem("posts")) || [];
-  const selectedPost = posts.find((post) => post.id === parseInt(postId));
-  console.log(selectedPost);
-
-  if (selectedPost) {
-    postTitle.textContent = selectedPost.title;
-    postBody.textContent = selectedPost.content;
-  }
-}
-
-// Cargar los posts cuando se cargue el DOM
 document.addEventListener("DOMContentLoaded", () => {
-  getPostsSidebar();
+    const sidebar = document.getElementById("sidebar-posts");
+    const postTitle = document.getElementById("post-title");
+    const postBody = document.getElementById("post-body");
+
+    function displayPosts(posts) {
+        sidebar.innerHTML = "";
+        posts.forEach(post => {
+            const listItem = document.createElement("li");
+            listItem.textContent = post.title;
+            listItem.dataset.id = post.id;
+            listItem.addEventListener("click", () => displayPost(post));
+            sidebar.appendChild(listItem);
+        });
+    }
+
+    function displayPost(post) {
+        postTitle.textContent = post.title;
+        postBody.textContent = post.content;
+    }
+
+    function init() {
+        const storedPosts = loadFromLocalStorage();
+        if (storedPosts && storedPosts.length > 0) {
+            console.log("Cargando posts desde LocalStorage");
+            displayPosts(storedPosts);
+        } else {
+            console.log("Cargando posts desde la API");
+            fetchPosts().then(posts => {
+                saveToLocalStorage(posts);
+                displayPosts(posts);
+            }).catch(error => console.error("Error al obtener los posts:", error));
+        }
+    }
+
+    init();
 });
