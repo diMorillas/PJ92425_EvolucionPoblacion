@@ -6,6 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("posts cargados desde LS");
   }else{
     fetchPosts("user");
-    //loadFromLocalStorage("user");
+    loadFromLocalStorage("user");
   }
 });

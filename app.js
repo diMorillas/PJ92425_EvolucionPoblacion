@@ -40,7 +40,8 @@ createDefaultAdmin();
 
 // Posts simulados
 let posts = [
-  {id:"1",title:"hola",content:"hola2"}
+  {id:"1",title:"hola",content:"hola"},
+  {id:"2",title:"hola2",content:"hola2"}
 ];
 
 // Función para comprobar si el usuario está autenticado
@@ -201,7 +202,33 @@ function iniciar() {
         response.end(JSON.stringify({ message: "Post no encontrado" }));
       }
       return;
-    } else {
+    }else if(pathname.startsWith("/api/posts/") && request.method === "PUT"){
+      const id = pathname.split("/")[3];
+
+      let body = "";
+      request.on("data", (chunk) => {
+        body += chunk.toString(); // Acumulamos los datos que vienen del cuerpo de la solicitud
+      });
+
+      request.on("end", () => {
+        const updatedPost = JSON.parse(body); // Parseamos los datos recibidos
+        const postIndex = posts.findIndex((p) => p.id === id); // Buscamos el índice del post por su id
+    
+        if (postIndex !== -1) {
+          // Si encontramos el post, lo actualizamos
+          posts[postIndex] = { ...posts[postIndex], ...updatedPost }; // Actualizamos solo los campos recibidos
+          response.writeHead(200, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ message: "Post actualizado con éxito", post: posts[postIndex] }));
+        } else {
+       
+          response.writeHead(404, { "Content-Type": "application/json" });
+          response.end(JSON.stringify({ message: "Post no encontrado" }));
+        }
+      });
+
+    }
+    
+    else {
       response.writeHead(404, { "Content-Type": "text/plain" });
       response.end("404 NOT FOUND");
     }

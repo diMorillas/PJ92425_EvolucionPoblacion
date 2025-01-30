@@ -110,7 +110,7 @@ function updatePost() {
     .then((response) => response.json())
     .then(() => {
       updateLocalStorage(updatedPost, "update"); // Actualizar en localStorage
-      fetchPosts();
+      fetchPosts("admin");
       clearFields();
     })
     .catch((err) => console.error("Error modificando post:", err));
