@@ -4,6 +4,7 @@ const mongoose = require('../db/mongoose');
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  role: { type: String, required: true },
 });
 
 // Crear el modelo basado en el esquema

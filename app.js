@@ -9,7 +9,7 @@ async function createDefaultAdmin() {
   try {
     const existingUser = await User.findOne({ username: "admin" });
     if (!existingUser) {
-      const newUser = new User({ username: "admin", password: "1234" });
+      const newUser = new User({ username: "admin", password: "1234", role: "admin" });
       await newUser.save();
       console.log('Usuario por defecto "admin" creado con éxito');
     } else {
@@ -24,7 +24,7 @@ async function createDefaultUser() {
   try {
     const existingUser = await User.findOne({ username: "user" });
     if (!existingUser) {
-      const newUser = new User({ username: "user", password: "1234" });
+      const newUser = new User({ username: "user", password: "1234", role: "user" });
       await newUser.save();
       console.log('Usuario por defecto "user" creado con éxito');
     } else {
