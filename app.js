@@ -95,8 +95,8 @@ function iniciar() {
     } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies", "/terminos", "/admin"].includes(pathname)) {
       
       // Bloqueo de acceso a /blogAdmin para usuario "user" (no hay roles de usuario)
-      if (pathname === "/blogAdmin") {
-        if (username && username.toLowerCase() === "user") {
+      if (pathname === "/blogAdmin"  || pathname === "/admin") {
+        if (username && username.toLowerCase() !== "admin") {
           response.writeHead(403, { "Content-Type": "text/html" });
           return response.end(`
             <script>
