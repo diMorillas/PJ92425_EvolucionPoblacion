@@ -165,28 +165,20 @@ textarea{
   <button id="back-to-home" class="back-to-home" onclick="window.location.href='/inicio'">
     ⬅️ Volver a Inicio
   </button>
+    <h1>Administrar Usuarios</h1>
   
-
-  <div class="container">
-    <h1 class="title">Zona de Administración</h1>
-
-    <div id="post-form">
-      <h2>Gestionar Usuarios</h2>
-      <input type="text" id="rol" placeholder="Rol...">
-      <input type="text" id="user" placeholder="Usuario..." />
-      <input type="text" id="password" placeholder="Contraseña..." />
-      <div class="button-container">
-      <button id="add-post" onclick="añadirUsuario()">Añadir</button>
-      <button id="modify-post" onclick="modificarUsuario()">Modificar</button>
-      <button id="delete-post" onclick="borrarUsuario()">Eliminar</button>
-      <br>
-      <button onclick="verUsuarios()">Ver todos los usuarios</button>
-      </div>
-    <div id="posts">
-      <h2 style="text-align: center;">Usuarios</h2>
-      <div id="post-container"></div>
-    </div>
-  </div>
-  <script  type="module"  src="./admin.js"></script>
-</body>
+    <h2>Crear Usuario</h2>
+    <form id="createUserForm">
+      <label for="username">Nombre de usuario:</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit" onclick="createUser()">Crear Usuario</button>
+    </form>
+  
+    <h2>Usuarios</h2>
+    <ul id="userList"></ul>
+  
+    <script src="./admin.js"></script>
+  </body>
 </html>

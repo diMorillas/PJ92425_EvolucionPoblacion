@@ -1,7 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { mongoose, User, Post } = require("./db/mongoose");
+const { mongoose, User } = require("./db/mongoose");
 const { URLSearchParams } = require("url");
 const cookie = require("cookie");
 
@@ -9,7 +9,7 @@ async function createDefaultAdmin() {
   try {
     const existingUser = await User.findOne({ username: "admin" });
     if (!existingUser) {
-      const newUser = new User({ username: "admin", password: "1234", role: "admin" });
+      const newUser = new User({ username: "admin", password: "1234" });
       await newUser.save();
       console.log('Usuario por defecto "admin" creado con éxito');
     } else {
@@ -24,7 +24,7 @@ async function createDefaultUser() {
   try {
     const existingUser = await User.findOne({ username: "user" });
     if (!existingUser) {
-      const newUser = new User({ username: "user", password: "1234", role: "user" });
+      const newUser = new User({ username: "user", password: "1234" });
       await newUser.save();
       console.log('Usuario por defecto "user" creado con éxito');
     } else {
@@ -38,9 +38,8 @@ async function createDefaultUser() {
 createDefaultUser();
 createDefaultAdmin();
 
-// Posts simulados
 let posts = [
-  {id:1,title:"test1",content:"content"}
+  { id: 1, title: "test1", content: "content" }
 ];
 
 const checkAuthentication = (request) => {
@@ -94,8 +93,7 @@ function iniciar() {
       serveFile("./public/index.html", "text/html");
     } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies", "/terminos", "/admin"].includes(pathname)) {
       
-      // Bloqueo de acceso a /blogAdmin para usuario "user" (no hay roles de usuario)
-      if (pathname === "/blogAdmin"  || pathname === "/admin") {
+      if (pathname === "/blogAdmin" || pathname === "/admin") {
         if (username && username.toLowerCase() !== "admin") {
           response.writeHead(403, { "Content-Type": "text/html" });
           return response.end(`
@@ -186,31 +184,27 @@ function iniciar() {
       });
       request.on('end', () => {
         try {
-          // Convertir el cuerpo de la solicitud en un objeto JavaScript (suponiendo que es JSON)
           const data = JSON.parse(body);
   
-          // Acceder a la información del cuerpo
           const id = parseInt(data.id);
           const title = data.title;
           const content = data.content;
   
-          // Validación básica de los datos
           if (!id || !title || !content) {
-            console.log(posts);
             response.writeHead(400, { 'Content-Type': 'application/json' });
-            return res.end(JSON.stringify({ message: 'Missing id, title, or content' }));
+            return response.end(JSON.stringify({ message: 'Missing id, title, or content' }));
           }
   
-          // Procesar los datos (agregar al arreglo, guardar, etc.)
+          posts.push({ id, title, content });
           response.writeHead(201, { 'Content-Type': 'application/json' });
           response.end(JSON.stringify({ message: 'Post added successfully', post: { id, title, content } }));
   
         } catch (error) {
-          // Si hubo un error al parsear el JSON
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ message: 'Invalid JSON format' }));
+          response.writeHead(400, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify({ message: 'Invalid JSON format' }));
         }
-      });    } else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
+      });
+    } else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
       const id = parseInt(pathname.split("/")[3], 10);
       const post = posts.find((p) => p.id === id);
 
@@ -223,10 +217,10 @@ function iniciar() {
       }
     } else if (pathname.startsWith("/api/posts/") && request.method === "DELETE") {
       const id = parseInt(pathname.split("/")[3], 10);
-      const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
+      const postIndex = posts.findIndex((p) => p.id === id);
 
       if (postIndex !== -1) {
-        posts.splice(postIndex, 1); 
+        posts.splice(postIndex, 1);
         response.writeHead(200, { "Content-Type": "application/json" });
         response.end(JSON.stringify({ message: "Post eliminado con éxito" }));
       } else {
