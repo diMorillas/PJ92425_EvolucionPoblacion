@@ -16,13 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
             this.rol = rol;
         }
     }
-    /*
-    function Usuarios(user, password, rol) { // preguntar sergi
-        this.user = user;
-        this.password = password;
-        this.rol = rol;
-    }
-        */
+     
 
     function guardarEnLocalStorage() {
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
@@ -93,14 +87,6 @@ document.addEventListener("DOMContentLoaded", function() {
             div.innerHTML = `<h3>${e.user}</h3><p>Rol: ${e.rol}</p><p>Password: ${e.password}</p>`;
             postContainer.appendChild(div);
         });
-        /*
-        for (let i = 0; i < usuarios.length; i++) { // Preguntar sergi + for of | for in
-            let div = document.createElement('div');
-            div.classList.add("post");
-            div.innerHTML = `<h3>${usuarios[i].user}</h3><p>Rol: ${usuarios[i].rol}</p><p>Password: ${usuarios[i].password}</p>`;
-            postContainer.appendChild(div);
-        }
-            */
     }
 
     function limpiarInputs() {
