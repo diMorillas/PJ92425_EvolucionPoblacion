@@ -57,6 +57,7 @@ document.getElementById("modify-post").addEventListener("click", async () => {
 
 document.getElementById("delete-post").addEventListener("click", async () => {
     const id = document.getElementById("id_post").value.trim();
+    console.log(id);
     if (!id) {
         alert("Introduce un ID para eliminar un post");
         return;

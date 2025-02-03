@@ -190,9 +190,8 @@ function iniciar() {
         response.end(JSON.stringify({ message: "Post no encontrado" }));
       }
     } else if (pathname.startsWith("/api/posts/") && request.method === "DELETE") {
-
       const id = pathname.split("/")[3];
-      console.log(typeof(id));
+      console.log("el id a eliminar es: " + id);
       const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
       if (postIndex !== -1) {
         posts.splice(postIndex, 1); // Eliminar el post del array
@@ -205,7 +204,6 @@ function iniciar() {
       return;
     }else if(pathname.startsWith("/api/posts/") && request.method === "PUT"){
       const id = pathname.split("/")[3];
-
       let body = "";
       request.on("data", (chunk) => {
         body += chunk.toString(); // Acumulamos los datos que vienen del cuerpo de la solicitud
