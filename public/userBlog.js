@@ -1,4 +1,5 @@
-import { Blog,renderPosts } from "./apiConsumer.js";
+import { renderPosts } from "./apiConsumer.js";
+import {Blog} from "./clases.js";
 
 let blog = new Blog();
 

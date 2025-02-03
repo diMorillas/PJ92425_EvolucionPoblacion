@@ -101,7 +101,7 @@ function iniciar() {
       serveFile(`./public${pathname}.html`, "text/html");
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
-    } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js" || pathname === "/userBlog.js") {
+    } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js" || pathname === "/userBlog.js" || pathname == "/clases.js") {
       serveFile(`./public${pathname}`, "application/javascript");
     } else if (pathname.startsWith("/img/")) {
       const extname = path.extname(pathname);
@@ -162,6 +162,7 @@ function iniciar() {
       
       response.writeHead(302, { Location: "/" });
       response.end();
+    //Empieza la api par manejar el CRUD de los posts
     } else if (pathname === "/api/posts" && request.method === "GET") {
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(posts));
