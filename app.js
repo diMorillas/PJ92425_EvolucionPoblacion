@@ -92,7 +92,7 @@ function iniciar() {
 
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
-    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies", "/terminos"].includes(pathname)) {
+    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies", "/terminos", "/admin"].includes(pathname)) {
       
       // Bloqueo de acceso a /blogAdmin para usuario "user" (no hay roles de usuario)
       if (pathname === "/blogAdmin") {
@@ -111,7 +111,7 @@ function iniciar() {
       
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
-    } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js" || pathname === "/userBlog.js" || pathname === "/graficas.js") {
+    } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js" || pathname === "/userBlog.js" || pathname === "/graficas.js" || pathname === "/admin.js") {
       serveFile(`./public${pathname}`, "application/javascript");
     } else if (pathname.startsWith("/img/")) {
       const extname = path.extname(pathname);
