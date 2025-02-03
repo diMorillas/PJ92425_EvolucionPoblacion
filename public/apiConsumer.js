@@ -1,4 +1,90 @@
+
+import { Blog } from './blog.js';
+
+
 const API_URL = "http://localhost:8888/api/posts";
+const STORAGE_KEY = "postsData"; // lo guardamos asi en LS
+
+const blog = new Blog();
+
+document.addEventListener("DOMContentLoaded", async () => {
+    if (blog.getAllPosts().length === 0) {
+        await blog.fetchPostsFromAPI();
+    }
+    renderPosts();
+});
+
+function renderPosts() {
+    const container = document.getElementById("post-container");
+    container.innerHTML = "";
+    blog.getAllPosts().forEach(post => {
+        const postElement = document.createElement("div");
+        postElement.classList.add("post");
+        postElement.innerHTML = `
+            <div class="posts">
+                <h2>${post.title}</h2>
+                <p>${post.content}</p>
+            </div>
+        `;
+        container.appendChild(postElement);
+    });
+}
+
+// Manejo de eventos
+document.getElementById("add-post").addEventListener("click", async () => {
+    const id = document.getElementById("id_post").value.trim();
+    const title = document.getElementById("title").value.trim();
+    const content = document.getElementById("content").value.trim();
+    if (!id || !title || !content) {
+        alert("Todos los campos son obligatorios");
+        return;
+    }
+    if (await blog.addPost(id, title, content)) {
+        renderPosts();
+        clearFields();
+    }
+});
+
+document.getElementById("modify-post").addEventListener("click", async () => {
+    const id = document.getElementById("id_post").value.trim();
+    const title = document.getElementById("title").value.trim();
+    const content = document.getElementById("content").value.trim();
+    if (!id || !title || !content) {
+        alert("Todos los campos son obligatorios");
+        return;
+    }
+    if (await blog.modifyPost(id, title, content)) {
+        renderPosts();
+        clearFields();
+    }
+});
+
+document.getElementById("delete-post").addEventListener("click", async () => {
+    const id = document.getElementById("id_post").value.trim();
+    if (!id) {
+        alert("Introduce un ID para eliminar un post");
+        return;
+    }
+    if (await blog.deletePost(id)) {
+        renderPosts();
+        clearFields();
+    }
+});
+
+function clearFields() {
+    document.getElementById("id_post").value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("content").value = "";
+}
+
+
+
+
+
+
+
+
+/*const API_URL = "http://localhost:8888/api/posts";
 const STORAGE_KEY = "postsData"; // lo guardamos asi en LS
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -176,3 +262,4 @@ function clearFields() {
   document.getElementById("title").value = "";
   document.getElementById("content").value = "";
 }
+*/
