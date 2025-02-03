@@ -19,5 +19,4 @@ const Post = mongoose.model('Post', new mongoose.Schema({
 }));
 
 // Exportar la conexión y el modelo
-module.exports = { mongoose, User };
-module.exports = { mongoose, Post };
+module.exports = { mongoose, User, Post};

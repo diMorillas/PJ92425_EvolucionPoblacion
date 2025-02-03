@@ -1,8 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { mongoose, User } = require("./db/mongoose");
-const { mongoose, Post } = require("./db/mongoose");
+const { mongoose, User, Post } = require("./db/mongoose");
 const { URLSearchParams } = require("url");
 const cookie = require("cookie");
 
