@@ -8,8 +8,16 @@ mongoose.connect('mongodb://localhost:27017/Users')
 // Definir el modelo de Usuario
 const User = mongoose.model('User', new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  role: { type: String, required: true }
+}));
+
+const Post = mongoose.model('Post', new mongoose.Schema({
+  id: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
+  content: { type: String, required: true }
 }));
 
 // Exportar la conexión y el modelo
 module.exports = { mongoose, User };
+module.exports = { mongoose, Post };
