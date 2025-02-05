@@ -1,71 +1,94 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const username = document.getElementById('username');
-    const password = document.getElementById('password');
-    const userList = document.getElementById('userList');
-    const createUserForm = document.getElementById('createUserForm');
-    
-    // Función para obtener los usuarios
-    async function getUsers() {
-      const response = await fetch('/api/users');
-      const data = await response.json();
-      userList.innerHTML = ''; // Limpiar la lista antes de mostrar los usuarios
-      data.forEach(user => {
-        let li = document.createElement('li');
-        li.textContent = `${user.username} - ${user.password}`;
-        
-        // Agregar botón para eliminar
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Eliminar';
-        deleteButton.onclick = () => deleteUser(user._id);
-        li.appendChild(deleteButton);
-        
-        userList.appendChild(li);
-      });
-    }
-  
-    // Función para crear un nuevo usuario
-    async function createUser(event) {
-      event.preventDefault();
-  
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username.value,
-          password: password.value
-        })
-      });
-  
-      const data = await response.json();
-      if (data._id) {
-        alert('Usuario creado exitosamente');
-        getUsers(); // Actualizar la lista de usuarios
-      } else {
-        alert('Error al crear usuario');
+  const createUserForm = document.getElementById('createUserForm');
+  const userList = document.getElementById('userList');
+
+  // Obtener y mostrar usuarios
+  async function loadUsers() {
+      try {
+          const response = await fetch('/api/users');
+          
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const users = await response.json();
+          renderUsers(users);
+      } catch (error) {
+          console.error('Error cargando usuarios:', error);
+          alert('Error al cargar usuarios');
       }
-    }
-  
-    // Función para eliminar un usuario
-    async function deleteUser(userId) {
-      const response = await fetch(`/api/users/${userId}`, {
-        method: 'DELETE'
+  }
+
+  // Renderizar lista de usuarios
+  function renderUsers(users) {
+      userList.innerHTML = '';
+      users.forEach(user => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+              <strong>${user.username}</strong>
+              <button class="delete-btn" data-id="${user._id}">Eliminar</button>
+          `;
+          userList.appendChild(li);
       });
-  
-      const data = await response.json();
-      if (data.message === 'Usuario eliminado') {
-        alert('Usuario eliminado');
-        getUsers(); // Actualizar la lista de usuarios
-      } else {
-        alert('Error al eliminar usuario');
+
+      // Agregar event listeners a los botones de eliminar
+      document.querySelectorAll('.delete-btn').forEach(button => {
+          button.addEventListener('click', async () => {
+              if (confirm('¿Estás seguro de eliminar este usuario?')) {
+                  try {
+                      const response = await fetch(`/api/users/${button.dataset.id}`, {
+                          method: 'DELETE'
+                      });
+                      
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+                      
+                      loadUsers(); // Recargar lista
+                      alert('Usuario eliminado exitosamente');
+                  } catch (error) {
+                      console.error('Error eliminando usuario:', error);
+                      alert('Error al eliminar usuario');
+                  }
+              }
+          });
+      });
+  }
+
+  // Manejar creación de usuarios
+  createUserForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(createUserForm);
+      const userData = {
+          username: formData.get('username'),
+          password: formData.get('password')
+      };
+
+      try {
+          const response = await fetch('/api/users', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(userData)
+          });
+
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.message || 'Error al crear usuario');
+          }
+
+          createUserForm.reset();
+          loadUsers(); // Recargar lista
+          alert('Usuario creado exitosamente');
+          
+      } catch (error) {
+          console.error('Error creando usuario:', error);
+          alert(error.message);
       }
-    }
-  
-    // Cargar los usuarios al cargar la página
-    getUsers();
-  
-    // Event listener para el formulario de creación de usuario
-    createUserForm.addEventListener('submit', createUser);
   });
-  
+
+  // Cargar usuarios al iniciar
+  loadUsers();
+});

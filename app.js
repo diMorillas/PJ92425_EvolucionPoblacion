@@ -1,7 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const { mongoose, User } = require("./db/mongoose");
+const { User } = require("./db/mongoose");
 const { URLSearchParams } = require("url");
 const cookie = require("cookie");
 
@@ -48,7 +48,7 @@ const checkAuthentication = (request) => {
 };
 
 function iniciar() {
-  function onRequest(request, response) {
+  async function onRequest(request, response) {
     const baseURL = `http://${request.headers.host}/`;
     const reqUrl = new URL(request.url, baseURL);
     const pathname = reqUrl.pathname;
@@ -174,7 +174,87 @@ function iniciar() {
       
       response.writeHead(302, { Location: "/" });
       response.end();
-    } else if (pathname === "/api/posts" && request.method === "GET") {
+    }
+
+else if (pathname === "/api/users" && request.method === "GET") {
+  if (username.toLowerCase() !== "admin") {
+    response.writeHead(403, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Acceso no autorizado" }));
+    return;
+  }
+  
+  try {
+    const users = await User.find({}, 'username password _id');
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify(users));
+  } catch (error) {
+    response.writeHead(500, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Error al obtener usuarios" }));
+  }
+  
+} else if (pathname === "/api/users" && request.method === "POST") {
+  if (username.toLowerCase() !== "admin") {
+    response.writeHead(403, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Acceso no autorizado" }));
+    return;
+  }
+  
+  let body = "";
+  request.on("data", (chunk) => body += chunk);
+  request.on("end", async () => {
+    try {
+      const userData = JSON.parse(body);
+      const existingUser = await User.findOne({ username: userData.username });
+      
+      if (existingUser) {
+        response.writeHead(400, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "El usuario ya existe" }));
+        return;
+      }
+      
+      const newUser = new User(userData);
+      await newUser.save();
+      response.writeHead(201, { "Content-Type": "application/json" });
+      response.end(JSON.stringify(newUser));
+      
+    } catch (error) {
+      response.writeHead(400, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ message: "Datos inválidos" }));
+    }
+  });
+  
+} else if (pathname.startsWith("/api/users/") && request.method === "DELETE") {
+  if (username.toLowerCase() !== "admin") {
+    response.writeHead(403, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Acceso no autorizado" }));
+    return;
+  }
+  
+  const userId = pathname.split("/")[3];
+  try {
+    const deletedUser = await User.findByIdAndDelete(userId);
+    
+    if (!deletedUser) {
+      response.writeHead(404, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ message: "Usuario no encontrado" }));
+      return;
+    }
+    
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Usuario eliminado" }));
+    
+  } catch (error) {
+    response.writeHead(500, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Error al eliminar usuario" }));
+  }
+}
+    
+    
+    
+    
+    
+    
+    else if (pathname === "/api/posts" && request.method === "GET") {
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(posts));
     } else if (pathname === "/api/posts" && request.method === "POST") {
