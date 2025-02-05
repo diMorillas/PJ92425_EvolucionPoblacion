@@ -39,7 +39,8 @@ createDefaultUser();
 createDefaultAdmin();
 
 let posts = [
-  { id: 1, title: "test1", content: "content" }
+  {id:"1",title:"hola",content:"hola"},
+  {id:"2",title:"hola2",content:"hola2"}
 ];
 
 const checkAuthentication = (request) => {
@@ -91,7 +92,7 @@ function iniciar() {
 
     if (pathname === "/") {
       serveFile("./public/index.html", "text/html");
-    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies", "/terminos", "/admin"].includes(pathname)) {
+    } else if (["/inicio", "/quizz", "/contacto", "/graficas", "/about", "/blogAdmin", "/blog", "/cookies", "/terminos", "/admin", "/blogAdmin"].includes(pathname)) {
       
       if (pathname === "/blogAdmin" || pathname === "/admin") {
         if (username && username.toLowerCase() !== "admin") {
@@ -105,15 +106,16 @@ function iniciar() {
         }
       }
       
-      serveFile(`./public${pathname}.html`, "text/html");
-      
+      serveFile(`./public${pathname}.html`, "text/html");      
     } else if (pathname === "/styles.css") {
       serveFile("./public/styles.css", "text/css");
-    } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js" || pathname === "/userBlog.js" || pathname === "/graficas.js" || pathname === "/admin.js") {
+    } else if (pathname === "/quizz.js" || pathname === "/apiConsumer.js" || pathname === "/userBlog.js" || pathname === "/graficas.js" || pathname === "/admin.js" || pathname === "/clases.js") {
       serveFile(`./public${pathname}`, "application/javascript");
     } else if (pathname.startsWith("/img/")) {
       const extname = path.extname(pathname);
       const contentType = mimeTypes[extname] || "application/octet-stream";
+
+      /* Inicio Mongoose */
       serveFile(`./public${pathname}`, contentType);
     } else if (pathname === "/auth/login" && request.method === "POST") {
       let body = "";
@@ -249,90 +251,83 @@ else if (pathname === "/api/users" && request.method === "GET") {
   }
 }
     
+  /* Fin Mongoose */
     
     
     
     
-    
-    else if (pathname === "/api/posts" && request.method === "GET") {
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(JSON.stringify(posts));
-    } else if (pathname === "/api/posts" && request.method === "POST") {
-      let body = "";
-      request.on('data', (chunk) => {
-        body += chunk;
-      });
-      request.on('end', () => {
-        try {
-          const data = JSON.parse(body);
-  
-          const id = parseInt(data.id);
-          const title = data.title;
-          const content = data.content;
-  
-          if (!id || !title || !content) {
-            response.writeHead(400, { 'Content-Type': 'application/json' });
-            return response.end(JSON.stringify({ message: 'Missing id, title, or content' }));
-          }
-  
-          posts.push({ id, title, content });
-          response.writeHead(201, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ message: 'Post added successfully', post: { id, title, content } }));
-  
-        } catch (error) {
-          response.writeHead(400, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ message: 'Invalid JSON format' }));
-        }
-      });
-    } else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
-      const id = parseInt(pathname.split("/")[3], 10);
-      const post = posts.find((p) => p.id === id);
+//Empieza la api par manejar el CRUD de los posts
+ else if (pathname === "/api/posts" && request.method === "GET") {
+  response.writeHead(200, { "Content-Type": "application/json" });
+  response.end(JSON.stringify(posts));
+} else if (pathname === "/api/posts" && request.method === "POST") {
+  let body = "";
+  request.on("data", (chunk) => {
+    body += chunk.toString();
+  });
+  request.on("end", () => {
+    const newPost = JSON.parse(body);
+    posts.push(newPost);
 
-      if (post) {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end(JSON.stringify(post));
-      } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post no encontrado" }));
-      }
-    } else if (pathname.startsWith("/api/posts/") && request.method === "DELETE") {
-      const id = parseInt(pathname.split("/")[3], 10);
-      const postIndex = posts.findIndex((p) => p.id === id);
+    response.writeHead(201, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Post creado con éxito", post: newPost }));
+  });
+} else if (pathname.startsWith("/api/posts/") && request.method === "GET") {
+  const id = parseInt(pathname.split("/")[3], 10);
+  const post = posts.find((p) => p.id === id);
 
-      if (postIndex !== -1) {
-        posts.splice(postIndex, 1);
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post eliminado con éxito" }));
-      } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.end(JSON.stringify({ message: "Post no encontrado" }));
-      }
-    } else if (pathname.startsWith("/api/posts") && request.method === "PUT") {
-      const id = parseInt(pathname.split("/")[3], 10);
-      const postIndex = posts.findIndex((p) => p.id === id);
-      
-      let body = "";
-      request.on("data", (chunk) => {
-        body += chunk.toString();
-      });
-      
-      request.on("end", () => {
-        const updatedPost = JSON.parse(body);
-        
-        if (postIndex !== -1) {
-          posts[postIndex] = { ...posts[postIndex], ...updatedPost };
-          response.writeHead(200, { "Content-Type": "application/json" });
-          response.end(JSON.stringify({ message: "Post actualizado con éxito" }));
-        } else {
-          response.writeHead(404, { "Content-Type": "application/json" });
-          response.end(JSON.stringify({ message: "Post no encontrado" }));
-        }
-      });
-    } else {
-      response.writeHead(404, { "Content-Type": "text/plain" });
-      response.end("404 NOT FOUND");
-    }
+  if (post) {
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify(post));
+  } else {
+    response.writeHead(404, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Post no encontrado" }));
   }
+} else if (pathname.startsWith("/api/posts/") && request.method === "DELETE") {
+  const id = pathname.split("/")[3];
+  console.log("el id a eliminar es: " + id);
+  const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
+  console.log(posts);
+  console.log(postIndex);
+  if (postIndex !== -1) {
+    posts.splice(postIndex, 1); // Eliminar el post del array
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Post eliminado con éxito" }));
+  } else {
+    response.writeHead(404, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Post no encontrado" }));
+  }
+  return;
+}else if(pathname.startsWith("/api/posts/") && request.method === "PUT"){
+  const id = pathname.split("/")[3];
+  let body = "";
+  request.on("data", (chunk) => {
+    body += chunk.toString(); // Acumulamos los datos que vienen del cuerpo de la solicitud
+  });
+
+  request.on("end", () => {
+    const updatedPost = JSON.parse(body); // Parseamos los datos recibidos
+    const postIndex = posts.findIndex((p) => p.id === id); // Buscamos el índice del post por su id
+
+    if (postIndex !== -1) {
+      // Si encontramos el post, lo actualizamos
+      posts[postIndex] = { ...posts[postIndex], ...updatedPost }; // Actualizamos solo los campos recibidos
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ message: "Post actualizado con éxito", post: posts[postIndex] }));
+    } else {
+   
+      response.writeHead(404, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ message: "Post no encontrado" }));
+    }
+  });
+
+}
+
+else {
+  response.writeHead(404, { "Content-Type": "text/plain" });
+  response.end("404 NOT FOUND");
+}
+}
 
   http.createServer(onRequest).listen(8888, () => {
     console.log("Servidor iniciado en http://localhost:8888");

@@ -5,45 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog</title>
   <link rel="stylesheet" href="./styles.css">
-  <style>
-    *{
-      font-family: "Poppins", sans-serif;  
-    }
-  </style>
 </head>
 <body>
-  <!-- Barra de navegación -->
-  <nav style="font-size: bold;">
+  <nav>
     <div class="nav-container">
       <a href="/inicio"><img src="../img/logo-nav.png" alt="Logo"></a>
       <ul class="nav-enlaces">
         <li><a href="/inicio">Gráfico</a></li>
         <li><a href="/quizz">Quizz</a></li>
-        <li><a style="color: blue;" href="/blog">Blog</a></li>
-        <li><a href="/about">Sobre Nosotros</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a style="color: blue;" href="/about">Sobre Nosotros</a></li>
         <li><a href="/contacto">Contacto</a></li>
       </ul>
       <div class="logout">
         <a href="/auth/logout">Log out</a>
       </div>
-      
+
     </div>
   </nav>
 
   <div class="main-container">
-    <!-- Barra lateral con los títulos de los posts -->
-    <div id="sidebar" class="sidebar">
-      <h2>Posts</h2>
-      <ul id="sidebar-posts">
-        <!-- Los títulos de los posts se añadirán aquí dinámicamente -->
-      </ul>
+    <h1 style="text-align:center;padding:30px;">Blog de Populus</h1>
+    <div class="blog-container">
+      <div id="post-container" class="content">
+      </div>
     </div>
 
-    <!-- Contenedor central para mostrar el contenido completo del post -->
-    <div id="post-content" class="content">
-      <h1 id="post-title">Seleccione un post</h1>
-      <p id="post-body">Haz clic en un título para ver el contenido.</p>
-    </div>
   </div>
 
   <footer class="footer-container">
@@ -51,10 +38,10 @@
         <p>Copyright &copy; Todos los derechos reservados a Populus 2024</p>
         <div class="footer-enlaces">
             <a href="/inicio">Inicio</a>
-            <a href="/cookies">Política de Cookies</a>
-            <a href="/terminos">Términos y Condiciones</a>
+            <a href="/politica_cookies">Política de Cookies</a>
+            <a href="/terminos.html">Términos y Condiciones</a>
             <a href="/contacto">Contacto</a>
-            <a href="/about">Sobre Nosotros</a>
+            <a href="/sobrenosotros">Sobre Nosotros</a>
         </div>
         <div class="footer-info">
             <p>Teléfono: +34 123 456 789</p>
