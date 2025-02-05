@@ -193,6 +193,8 @@ function iniciar() {
       const id = pathname.split("/")[3];
       console.log("el id a eliminar es: " + id);
       const postIndex = posts.findIndex((p) => p.id === id); // Buscar índice del post por ID (string)
+      console.log(posts);
+      console.log(postIndex);
       if (postIndex !== -1) {
         posts.splice(postIndex, 1); // Eliminar el post del array
         response.writeHead(200, { "Content-Type": "application/json" });
