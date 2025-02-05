@@ -1,99 +1,94 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let rol = document.getElementById('rol');
-    let user = document.getElementById('user');
-    let password = document.getElementById('password');
-    let postContainer = document.getElementById("post-container");
+  const createUserForm = document.getElementById('createUserForm');
+  const userList = document.getElementById('userList');
 
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [
-        { user: 'admin', password: '1234', rol: 'admin' },
-        { user: 'user', password: '1234', rol: 'user' }
-    ];
+  // Obtener y mostrar usuarios
+  async function loadUsers() {
+      try {
+          const response = await fetch('/api/users');
+          
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const users = await response.json();
+          renderUsers(users);
+      } catch (error) {
+          console.error('Error cargando usuarios:', error);
+          alert('Error al cargar usuarios');
+      }
+  }
 
-    class Users {
-        constructor(user, password, rol) {
-            this.user = user;
-            this.password = password;
-            this.rol = rol;
-        }
-    }
-     
+  // Renderizar lista de usuarios
+  function renderUsers(users) {
+      userList.innerHTML = '';
+      users.forEach(user => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+              <strong>${user.username}</strong>
+              <button class="delete-btn" data-id="${user._id}">Eliminar</button>
+          `;
+          userList.appendChild(li);
+      });
 
-    function guardarEnLocalStorage() {
-        localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    }
+      // Agregar event listeners a los botones de eliminar
+      document.querySelectorAll('.delete-btn').forEach(button => {
+          button.addEventListener('click', async () => {
+              if (confirm('¿Estás seguro de eliminar este usuario?')) {
+                  try {
+                      const response = await fetch(`/api/users/${button.dataset.id}`, {
+                          method: 'DELETE'
+                      });
+                      
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+                      
+                      loadUsers(); // Recargar lista
+                      alert('Usuario eliminado exitosamente');
+                  } catch (error) {
+                      console.error('Error eliminando usuario:', error);
+                      alert('Error al eliminar usuario');
+                  }
+              }
+          });
+      });
+  }
 
-    window.añadirUsuario = function() {
-        if (user.value.trim() === "" || password.value.trim() === "" || rol.value.trim() === "") {
-            alert("Por favor, completa todos los campos.");
-            return;
-        }
-        let newUser = new Users(user.value, password.value, rol.value);
-        usuarios.push(newUser);
-        guardarEnLocalStorage();
-        limpiarInputs();
-        actualizarUsuarios();
-    };
+  // Manejar creación de usuarios
+  createUserForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(createUserForm);
+      const userData = {
+          username: formData.get('username'),
+          password: formData.get('password')
+      };
 
-    window.borrarUsuario = function() {
-        let username = user.value.trim();
-        if (!username) {
-            alert("Introduce un usuario para eliminar.");
-            return;
-        }
+      try {
+          const response = await fetch('/api/users', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(userData)
+          });
 
-        let index = usuarios.findIndex(u => u.user === username);
-        if (index !== -1) {
-            usuarios.splice(index, 1);
-            guardarEnLocalStorage();
-            limpiarInputs();
-            actualizarUsuarios();
-        } else {
-            alert("Usuario no encontrado.");
-        }
-    };
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.message || 'Error al crear usuario');
+          }
 
-    window.modificarUsuario = function() {
-        let username = user.value.trim();
-        let newPassword = password.value.trim();
-        let newRol = rol.value.trim();
+          createUserForm.reset();
+          loadUsers(); // Recargar lista
+          alert('Usuario creado exitosamente');
+          
+      } catch (error) {
+          console.error('Error creando usuario:', error);
+          alert(error.message);
+      }
+  });
 
-        if (!username) {
-            alert("Introduce un usuario para modificar.");
-            return;
-        }
-
-        let usuario = usuarios.find(u => u.user === username);
-        if (usuario) {
-            if (newPassword) usuario.password = newPassword;
-            if (newRol) usuario.rol = newRol;
-            guardarEnLocalStorage();
-            alert(`Usuario "${username}" modificado correctamente.`);
-            limpiarInputs();
-            actualizarUsuarios();
-        } else {
-            alert("Usuario no encontrado.");
-        }
-    };
-
-    window.verUsuarios = function() {
-        actualizarUsuarios();
-    };
-
-    function actualizarUsuarios() {
-        postContainer.innerHTML = "";
-        usuarios.forEach(e => {
-            let div = document.createElement('div');
-            div.classList.add("post");
-            div.innerHTML = `<h3>${e.user}</h3><p>Rol: ${e.rol}</p><p>Password: ${e.password}</p>`;
-            postContainer.appendChild(div);
-        });
-    }
-
-    function limpiarInputs() {
-        user.value = "";
-        password.value = "";
-        rol.value = "";
-    }
-
-    actualizarUsuarios();
+  // Cargar usuarios al iniciar
+  loadUsers();
 });
