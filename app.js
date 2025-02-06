@@ -249,6 +249,34 @@ else if (pathname === "/api/users" && request.method === "GET") {
     response.writeHead(500, { "Content-Type": "application/json" });
     response.end(JSON.stringify({ message: "Error al eliminar usuario" }));
   }
+} else if (pathname.startsWith("/api/users/") && request.method === "PUT") {
+  if (username.toLowerCase() !== "admin") {
+    response.writeHead(403, { "Content-Type": "application/json" });
+    response.end(JSON.stringify({ message: "Acceso no autorizado" }));
+    return;
+  }
+
+  const userId = pathname.split("/")[3];
+  let body = "";
+  request.on("data", (chunk) => body += chunk);
+  request.on("end", async () => {
+    try {
+      const updatedData = JSON.parse(body);
+      const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
+
+      if (!updatedUser) {
+        response.writeHead(404, { "Content-Type": "application/json" });
+        response.end(JSON.stringify({ message: "Usuario no encontrado" }));
+        return;
+      }
+
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(JSON.stringify(updatedUser));
+    } catch (error) {
+      response.writeHead(400, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ message: "Datos inválidos" }));
+    }
+  });
 }
     
   /* Fin Mongoose */
